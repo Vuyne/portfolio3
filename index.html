@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ SỬA: Tiêu đề tab trình duyệt -->
+  <title>Vy Lo — Portfolio</title>
+  <meta name="description" content="Engineer + Creative Portfolio">
+
+  <!-- Font chữ từ Google (cần internet) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- File CSS riêng -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ======================================================
+       CURSOR CUSTOM (chấm đỏ + vòng tròn theo chuột)
+       Không cần sửa phần này
+  ====================================================== -->
+  <div class="cursor-dot"  id="dot"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <!-- ======================================================
+       NAV — Thanh menu trên cùng
+  ====================================================== -->
+  <nav>
+    <!-- ✏️ SỬA: Tên của bạn ở góc trái -->
+    <div class="nav-logo">V y L o</div>
+
+    <!-- Menu links — tự nhảy đến section tương ứng -->
+    <ul class="nav-links">
+      <li><a href="#works">Works</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- ✏️ SỬA: Trạng thái (Available / Unavailable) -->
+    <div class="nav-meta">
+      VOL. 01 &nbsp;/&nbsp; 2026<br>
+      <span class="available-dot">● Available</span>
+    </div>
+  </nav>
+
+  <!-- ======================================================
+       HERO — Màn hình đầu tiên
+  ====================================================== -->
+  <section id="hero">
+
+    <!-- Cột sidebar bên trái -->
+    <aside class="hero-sidebar">
+      <div class="hero-sidebar-top">
+        <div class="num-badge">NO. 01</div>
+
+        <!-- ✏️ SỬA: Các role của bạn, mỗi dòng 1 role -->
+        <div class="hero-sidebar-role">
+          AI/ML Engineer<br>
+          Software Engineer<br>
+          CAD Designer<br>
+          Software Developer<br>
+          Art Lover<br>
+        </div>
+      </div>
+
+      <!-- Chữ Nhật dọc bên sidebar — trang trí -->
+      <div class="hero-sidebar-vert">エンジニア・クリエイティブ・ポートフォリオ</div>
+
+      <!-- ✏️ SỬA: Địa điểm và năm -->
+      <div class="hero-sidebar-date">
+        Winter Park, FL<br>
+        2024 — PRESENT
+      </div>
+    </aside>
+
+    <!-- Nội dung chính bên phải -->
+    <div class="hero-main">
+
+      <!-- Chữ Nhật to ở background — trang trí, không cần sửa -->
+      <span class="hero-bg-kanji" aria-hidden="true">作</span>
+
+      <div class="hero-content reveal">
+
+        <div class="hero-kicker">
+          <!-- ✏️ SỬA: Tagline ngắn -->
+          <span class="label">Software Engineer + Artist</span>
+        </div>
+
+        <!-- ✏️ SỬA: Tên của bạn. Dòng jp-small là phiên âm tiếng Nhật (optional) -->
+        <h1 class="hero-name">
+          <span class="jp-small">あなたの名前</span>
+          vy<span class="accent">lo.</span>
+        </h1>
+
+        <!-- ✏️ SỬA: Bio ngắn 1-2 câu -->
+        <p class="hero-bio">
+          Building digital experiences at the intersection of engineering precision
+          and creative intuition. Code as craft — interfaces as poetry.
+        </p>
+
+        <!-- ✏️ SỬA: Các tag kỹ năng. Thêm/bớt thẻ <span class="tag"> tùy ý -->
+        <div class="hero-tags">
+          <span class="tag filled">Available for work</span>
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Next.js</span>
+          <span class="tag">Creative Dev</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       TICKER — Dải chữ chạy
+       ✏️ SỬA: Nội dung trong ticker (nhớ copy cả 2 lần để loop mượt)
+  ====================================================== -->
+  <div class="ticker" aria-hidden="true">
+    <span class="ticker-track">
+      CREATIVE WORKS &nbsp;◆&nbsp; ENGINEERING &nbsp;◆&nbsp; FRONTEND &nbsp;◆&nbsp; FULLSTACK &nbsp;◆&nbsp; DESIGN &nbsp;◆&nbsp; MOTION &nbsp;◆&nbsp; 作品集 &nbsp;◆&nbsp; エンジニア &nbsp;◆&nbsp; OPEN TO WORK &nbsp;◆&nbsp;
+      CREATIVE WORKS &nbsp;◆&nbsp; ENGINEERING &nbsp;◆&nbsp; FRONTEND &nbsp;◆&nbsp; FULLSTACK &nbsp;◆&nbsp; DESIGN &nbsp;◆&nbsp; MOTION &nbsp;◆&nbsp; 作品集 &nbsp;◆&nbsp; エンジニア &nbsp;◆&nbsp; OPEN TO WORK &nbsp;◆&nbsp;
+    </span>
+  </div>
+
+  <!-- ======================================================
+       WORKS — Danh sách project
+  ====================================================== -->
+  <section id="works">
+
+    <div class="section-header reveal">
+      <span class="num-badge">01</span>
+      <span class="section-title-text">Selected Works</span>
+      <div class="rule"></div>
+      <span class="jp-label">選ばれた作品</span>
+    </div>
+
+    <div class="works-grid reveal">
+
+      <!-- ─── PROJECT 1 (card to, nền đen) ───────────── -->
+      <!-- ✏️ SỬA: Tên project, năm, tech stack, link -->
+      <article class="work-card wc-feature dark" onclick="window.open('https://github.com/yourname/project1', '_blank')">
+        <div class="halftone"></div>
+        <div class="wc-num">001 — 2024</div>
+        <div class="wc-title">Archive<br>System</div>
+        <div class="wc-jp">アーカイブ</div>
+        <div class="wc-sub">React · TypeScript · Supabase</div>
+        <div class="wc-corner">→</div>
+      </article>
+
+      <!-- ─── PROJECT 2 (card ngang rộng) ─────────────── -->
+      <article class="work-card wc-wide" onclick="window.open('https://github.com/yourname/project2', '_blank')">
+        <div class="wc-accent-bar"></div>
+        <div class="wc-num" style="padding-left:1rem">002 — 2024</div>
+        <div class="wc-title" style="padding-left:1rem">Design System &<br>Component Library</div>
+        <div class="wc-sub" style="padding-left:1rem">Figma · React · Storybook</div>
+        <div class="wc-corner">→</div>
+      </article>
+
+      <!-- ─── PROJECT 3 ─────────────────────────────── -->
+      <article class="work-card wc-small" onclick="window.open('https://github.com/yourname/project3', '_blank')">
+        <div class="wc-num">003 — 2023</div>
+        <div class="wc-title">Motion<br>Lab</div>
+        <div class="wc-jp">動き</div>
+        <div class="wc-sub">GSAP · Three.js</div>
+        <div class="wc-corner">→</div>
+      </article>
+
+      <!-- ─── PROJECT 4 ─────────────────────────────── -->
+      <article class="work-card wc-small" onclick="window.open('https://github.com/yourname/project4', '_blank')">
+        <div class="wc-num">004 — 2023</div>
+        <div class="wc-title">Editorial<br>CMS</div>
+        <div class="wc-jp">編集</div>
+        <div class="wc-sub">Next.js · Sanity</div>
+        <div class="wc-corner">→</div>
+      </article>
+
+      <!-- ─── PROJECT 5 (dải ngang full width) ─────── -->
+      <article class="work-card wc-strip" onclick="window.open('https://github.com/yourname', '_blank')">
+        <div class="wc-strip-num">005 — ONGOING</div>
+        <div class="wc-strip-title">Open Source Contributions</div>
+        <div class="wc-strip-sub">GitHub · Community</div>
+        <div class="wc-strip-arrow">→</div>
+      </article>
+
+      <!-- ─── PROJECT 6 ─────────────────────────────── -->
+      <article class="work-card wc-half" onclick="window.open('https://github.com/yourname/project6', '_blank')">
+        <div class="wc-num">006 — 2022</div>
+        <div class="wc-title">E-Commerce<br>Platform</div>
+        <div class="wc-jp">コマース</div>
+        <div class="wc-sub">Next.js · Stripe · Prisma</div>
+        <div class="wc-corner">→</div>
+      </article>
+
+      <!-- ─── PROJECT 7 ─────────────────────────────── -->
+      <article class="work-card wc-half muted-bg" onclick="window.open('https://github.com/yourname/project7', '_blank')">
+        <div class="wc-num">007 — 2022</div>
+        <div class="wc-title">Data<br>Dashboard</div>
+        <div class="wc-jp">データ</div>
+        <div class="wc-sub">D3.js · WebSocket · Go</div>
+        <div class="wc-corner">→</div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ======================================================
+       ABOUT — Giới thiệu bản thân
+  ====================================================== -->
+  <section id="about">
+
+    <div class="section-header reveal">
+      <span class="num-badge">02</span>
+      <span class="section-title-text">About</span>
+      <div class="rule"></div>
+      <span class="jp-label">について</span>
+    </div>
+
+    <div class="about-grid reveal">
+
+      <!-- Cột 1: Bio dài -->
+      <div class="about-col">
+        <div class="about-col-lbl">Profile</div>
+        <!-- ✏️ SỬA: Bio của bạn -->
+        <p class="about-body">
+          I'm a Vietnamese engineer who believes the best products lie at the intersection of
+          technical standards and aesthetic intent. I care deeply about
+          the invisible details that make an interface feel inevitable.
+          I graduated from Full Sail University with a B.S. in Simulation Engineering, and spend my whole life learning illustration as a hobby.
+          <br><br>
+          Currently based in Winter Park, FL. Open to onsite/remote opportunities worldwide.
+          When I'm not building, I'm sketching, reading, or hunting for the perfect cup of coffee.
+        </p>
+      </div>
+
+      <!-- Cột 2: Con số -->
+      <div class="about-col">
+        <div class="about-col-lbl">Numbers</div>
+        <!-- ✏️ SỬA: Số năm kinh nghiệm -->
+        <div class="about-stat-num"><span class="accent">2</span>+</div>
+        <div class="about-stat-lbl">Years of experience</div>
+        <!-- ✏️ SỬA: Số project -->
+        <div class="about-stat-num" style="font-size:44px">24</div>
+        <div class="about-stat-lbl">Projects shipped</div>
+        <div class="about-stat-num" style="font-size:36px">∞</div>
+        <div class="about-stat-lbl">Coffees consumed</div>
+      </div>
+
+      <!-- Cột 3: Trạng thái hiện tại -->
+      <div class="about-col">
+        <div class="about-col-lbl">Currently</div>
+        <!-- ✏️ SỬA: Trạng thái, loại công việc muốn nhận -->
+        <p class="about-body">
+          Open to freelance &amp; full-time opportunities.
+          Interested in design-forward engineering teams building ambitious products.
+          <br><br>
+          Fast response via email.
+        </p>
+        <!-- ✏️ SỬA: Email của bạn -->
+        <div style="margin-top:1.5rem">
+          <a href="https://mail.google.com/mail/?view=cm&to=vy.lo.work@gmail.com" class="cta-btn" target="_blank">Say Hello →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================
+       SKILLS — Kỹ năng
+  ====================================================== -->
+  <section id="skills">
+
+    <div class="section-header reveal">
+      <span class="num-badge">03</span>
+      <span class="section-title-text">Skills</span>
+      <div class="rule"></div>
+      <span class="jp-label">スキル</span>
+    </div>
+
+    <!-- ✏️ SỬA: Tên skill, mô tả, % (data-w="92" = 92%) -->
+    <div class="skills-wrap reveal">
+
+      <div class="skill-col" data-n="01">
+        <div class="skill-name">Programming</div>
+        <div class="skill-jp">プログラミング</div>
+        <div class="skill-track"><div class="skill-fill" data-w="75"></div></div>
+        <div class="skill-pct">C/C++/C#/Python/Unity/Arduino — 75%</div>
+      </div>
+
+      <div class="skill-col" data-n="02">
+        <div class="skill-name">Engineering</div>
+        <div class="skill-jp">エンジニアリング</div>
+        <div class="skill-track"><div class="skill-fill" data-w="78"></div></div>
+        <div class="skill-pct">SolidWorks, Digital fabrication, Microcontrollers, Arduino — 78%</div>
+      </div>
+
+      <div class="skill-col" data-n="03">
+        <div class="skill-name">Design/Illustration/Photography/Editor</div>
+        <div class="skill-jp">デザイン</div>
+        <div class="skill-track"><div class="skill-fill" data-w="85"></div></div>
+        <div class="skill-pct">Figma, Design Systems — 85%</div>
+      </div>
+
+      <div class="skill-col" data-n="04">
+        <div class="skill-name">Motion</div>
+        <div class="skill-jp">モーション</div>
+        <div class="skill-track"><div class="skill-fill" data-w="72"></div></div>
+        <div class="skill-pct">GSAP, Framer Motion — 72%</div>
+      </div>
+
+      <div class="skill-col" data-n="05">
+        <div class="skill-name">Creative</div>
+        <div class="skill-jp">クリエイティブ</div>
+        <div class="skill-track"><div class="skill-fill" data-w="88"></div></div>
+        <div class="skill-pct">Three.js, WebGL, Canvas — 88%</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================
+       CONTACT — Liên hệ
+  ====================================================== -->
+  <section id="contact">
+
+    <div class="contact-left reveal">
+      <h2 class="contact-headline">
+        Let's make<br>
+        something<br>
+        <!-- ✏️ SỬA: Tagline contact -->
+        <em>rare.</em>
+      </h2>
+
+      <!-- ✏️ SỬA: Các link liên hệ của bạn -->
+      <div class="contact-links">
+        <a href="mailto:hello@yourname.com"              class="contact-link">hello@yourname.com</a>
+        <a href="https://github.com/yourname"            class="contact-link" target="_blank">github.com/yourname</a>
+        <a href="https://linkedin.com/in/yourname"       class="contact-link" target="_blank">linkedin.com/in/yourname</a>
+        <a href="https://twitter.com/yourname"           class="contact-link" target="_blank">twitter.com/yourname</a>
+      </div>
+
+      <a href="mailto:hello@yourname.com" class="cta-btn">Start a conversation →</a>
+    </div>
+
+    <div class="contact-right reveal">
+      <!-- ✏️ SỬA: Thông tin colophon -->
+      <div class="colophon">
+        PORTFOLIO — VOL. 01<br>
+        ENGINEER + CREATIVE<br>
+        ポートフォリオ<br>
+        <br>
+        YOUR NAME<br>
+        INVERNESS, FL — USA<br>
+        <br>
+        AVAILABLE WORLDWIDE<br>
+        REMOTE · HYBRID
+      </div>
+      <div class="edition-mark">作品集</div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================
+       FOOTER
+  ====================================================== -->
+  <footer class="bottom-bar">
+    <!-- ✏️ SỬA: Tên của bạn -->
+    <span>© 2024 YOUR NAME</span>
+    <span>エンジニア + クリエイティブ</span>
+    <span>Built with craft &amp; intention</span>
+  </footer>
+
+  <!-- File JS riêng -->
+  <script src="script.js"></script>
+
+</body>
+</html>
