@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- ✏️ SỬA: Tên project -->
-  <title>Simulation Engine — Vy Lo</title>
+  <title>No Button Fighter — Vy Lo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
@@ -32,11 +31,9 @@
 
     a { color: inherit; text-decoration: none; }
 
-    /* ── CURSOR ── */
     .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
     .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
 
-    /* ── NAV ── */
     nav {
       display: flex;
       justify-content: space-between;
@@ -75,7 +72,6 @@
 
     .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; text-align:right; }
 
-    /* ── PROJECT HEADER (full width) ── */
     .proj-header {
       border-bottom: var(--border);
       padding: 2rem 2.5rem;
@@ -95,7 +91,6 @@
       display: inline-block;
     }
 
-    /* ✏️ SỬA: Tên project lớn */
     .proj-title {
       font-family: 'Noto Serif JP', serif;
       font-size: clamp(28px, 4vw, 56px);
@@ -121,22 +116,27 @@
     }
     .proj-tag.filled { background:var(--ink); color:var(--paper); }
 
-    /* ── MAIN LAYOUT: ảnh trái + detail phải ── */
+    .note-tag {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: var(--thin);
+      padding: 3px 9px;
+    }
+
     .proj-body {
       display: grid;
-      grid-template-columns: 1fr 420px; /* ✏️ SỬA: đổi 420px nếu muốn cột phải rộng/hẹp hơn */
+      grid-template-columns: 1fr 420px;
       min-height: calc(100vh - 120px);
       border-bottom: var(--border);
     }
 
-    /* ── CỘT TRÁI: ảnh ── */
     .proj-images {
       border-right: var(--border);
       display: flex;
       flex-direction: column;
     }
 
-    /* Ảnh chính to nhất */
     .img-main {
       border-bottom: var(--thin);
       overflow: hidden;
@@ -155,7 +155,6 @@
     .img-main:hover img,
     .img-thumb:hover img { transform: scale(1.03); }
 
-    /* Placeholder khi chưa có ảnh */
     .img-placeholder {
       width: 100%;
       height: 100%;
@@ -172,10 +171,9 @@
       color: var(--paper-md);
     }
 
-    /* Hàng ảnh nhỏ bên dưới */
     .img-thumbs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* ✏️ SỬA: số ảnh nhỏ */
+      grid-template-columns: repeat(3, 1fr);
       flex: 1;
     }
 
@@ -188,7 +186,6 @@
     }
     .img-thumb:last-child { border-right: none; }
 
-    /* Label số trên ảnh nhỏ */
     .img-thumb-label {
       position: absolute;
       top: 0.5rem;
@@ -201,7 +198,6 @@
       z-index: 2;
     }
 
-    /* ── CỘT PHẢI: thông tin ── */
     .proj-detail {
       padding: 2.5rem 2rem;
       display: flex;
@@ -209,11 +205,10 @@
       gap: 2rem;
       overflow-y: auto;
       position: sticky;
-      top: 54px; /* chiều cao nav */
+      top: 54px;
       height: calc(100vh - 54px);
     }
 
-    /* Từng block thông tin */
     .detail-block {
       padding-bottom: 2rem;
       border-bottom: var(--thin);
@@ -235,7 +230,6 @@
       color: var(--ink);
     }
 
-    /* Timeline process */
     .timeline {
       display: flex;
       flex-direction: column;
@@ -259,8 +253,6 @@
       padding-top: 2px;
     }
 
-    .timeline-content {}
-
     .timeline-title {
       font-family: 'Noto Serif JP', serif;
       font-size: 13px;
@@ -275,7 +267,6 @@
       letter-spacing: 0.03em;
     }
 
-    /* Outcome / result */
     .outcome-box {
       background: var(--ink);
       color: var(--paper);
@@ -297,7 +288,6 @@
       line-height: 1.7;
     }
 
-    /* Link ngoài */
     .proj-link {
       display: inline-flex;
       align-items: center;
@@ -325,7 +315,6 @@
       flex-wrap: wrap;
     }
 
-    /* ── RELATED ── */
     .related {
       border-top: var(--border);
       padding: 2rem 2.5rem;
@@ -358,7 +347,6 @@
     .related-title { font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 700; margin-bottom: 0.3rem; }
     .related-sub { font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-    /* ── FOOTER ── */
     .page-footer {
       border-top: var(--border);
       padding: 1rem 2.5rem;
@@ -375,201 +363,175 @@
   <div class="cursor-dot"  id="dot"></div>
   <div class="cursor-ring" id="ring"></div>
 
-  <!-- NAV -->
   <nav>
     <div class="nav-left">
-      <!-- ✏️ SỬA: href trỏ về đúng gallery của category này -->
-      <a href="gallery.html" class="back-btn">Back to Technical Work</a>
+      <a href="gallery-technical.html" class="back-btn">Back to Technical Work</a>
       <div class="nav-divider"></div>
       <div class="nav-logo">V y L o</div>
     </div>
-    <div class="nav-meta">
-      <!-- ✏️ SỬA -->
-      PROJECT DETAIL &nbsp;/&nbsp; 001
-    </div>
+    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 001</div>
   </nav>
 
-  <!-- PROJECT HEADER -->
   <div class="proj-header">
     <div class="proj-header-left">
-      <div class="proj-num">001 — 2024</div>
-      <!-- ✏️ SỬA: Tên project -->
-      <h1 class="proj-title">Simulation<br><span class="accent">Engine.</span></h1>
+      <div class="proj-num">001 — 2026</div>
+      <h1 class="proj-title">No Button <span class="accent">Fighter</span></h1>
     </div>
     <div class="proj-header-right">
-      <!-- ✏️ SỬA: Tags -->
-      <span class="proj-tag filled">Unity</span>
-      <span class="proj-tag">C#</span>
-      <span class="proj-tag">Physics</span>
-      <span class="proj-tag">Real-time</span>
-      <span class="proj-tag">Simulation</span>
+      <span class="note-tag">Unity</span>
+      <span class="note-tag">C#</span>
+      <span class="note-tag">SolidWorks</span>
+      <span class="note-tag">3D Printing</span>
+      <span class="note-tag">Serial Communication</span>
+      <span class="note-tag">Leap Motion SDK</span>
     </div>
   </div>
 
-  <!-- MAIN BODY -->
   <div class="proj-body">
 
-    <!-- ── CỘT TRÁI: HÌNH ẢNH ── -->
     <div class="proj-images">
-
-      <!-- Ảnh chính -->
       <div class="img-main">
-        <!-- ✏️ SỬA: Xóa div placeholder bên dưới, thay bằng:
-             <img src="images/proj1-main.jpg" alt="Simulation Engine main"> -->
+        <!-- Replace with: <img src="images/nbf-main.jpg" alt="No Button Fighter gameplay"> -->
         <div class="img-placeholder">
-          <span>技</span>
+          <span>拳</span>
         </div>
       </div>
 
-      <!-- Ảnh nhỏ quá trình -->
       <div class="img-thumbs">
         <div class="img-thumb">
           <span class="img-thumb-label">PROCESS 01</span>
-          <!-- ✏️ SỬA: <img src="images/proj1-p1.jpg" alt=""> -->
+          <!-- Replace with: <img src="images/nbf-hardware.jpg" alt="Hardware setup"> -->
           <div class="img-placeholder" style="min-height:0; height:100%">
             <span style="font-size:30px; font-family:'Noto Serif JP',serif; color:var(--paper-md)">工</span>
           </div>
         </div>
         <div class="img-thumb">
           <span class="img-thumb-label">PROCESS 02</span>
+          <!-- Replace with: <img src="images/nbf-unity.jpg" alt="Unity development"> -->
           <div class="img-placeholder" style="min-height:0; height:100%">
             <span style="font-size:30px; font-family:'Noto Serif JP',serif; color:var(--paper-md)">程</span>
           </div>
         </div>
         <div class="img-thumb">
           <span class="img-thumb-label">RESULT</span>
+          <!-- Replace with: <img src="images/nbf-result.jpg" alt="Final result"> -->
           <div class="img-placeholder" style="min-height:0; height:100%">
             <span style="font-size:30px; font-family:'Noto Serif JP',serif; color:var(--paper-md)">果</span>
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- ── CỘT PHẢI: THÔNG TIN ── -->
     <div class="proj-detail">
 
-      <!-- Overview -->
       <div class="detail-block">
         <div class="detail-label">Overview</div>
-        <!-- ✏️ SỬA: Mô tả tổng quan project -->
         <p class="detail-body">
-          A real-time physics simulation engine built in Unity, featuring custom
-          collision detection algorithms and rigid body dynamics. Designed to
-          support large-scale particle systems with minimal performance overhead.
+          A gesture-controlled 3D fighting game built in Unity where players fight entirely without buttons.
+          Using an Ultraleap hand tracking sensor, real-time palm velocity and position data is mapped to
+          in-game actions — punches, dodges, fireballs, and movement — making the body itself the controller.
+          A custom 3D-printed mount and serial communication platform complete the physical experience.
         </p>
       </div>
 
-      <!-- Process Timeline -->
       <div class="detail-block">
         <div class="detail-label">Process</div>
         <div class="timeline">
 
-          <!-- ✏️ SỬA: Các bước quá trình làm -->
           <div class="timeline-item">
             <div class="timeline-step">STEP 01</div>
             <div class="timeline-content">
-              <div class="timeline-title">Research & Planning</div>
-              <div class="timeline-desc">Reviewed existing physics engines, identified performance bottlenecks and defined scope of the custom implementation.</div>
+              <div class="timeline-title">Concept & Hardware Design</div>
+              <div class="timeline-desc">Designed the physical mount for the Ultraleap sensor in SolidWorks, then 3D-printed and assembled the housing. Established serial communication protocol between the motion platform and Unity.</div>
             </div>
           </div>
 
           <div class="timeline-item">
             <div class="timeline-step">STEP 02</div>
             <div class="timeline-content">
-              <div class="timeline-title">Core Architecture</div>
-              <div class="timeline-desc">Built the base collision detection system using AABB bounding boxes and broad-phase sweep pruning for efficiency.</div>
+              <div class="timeline-title">Gesture Mapping</div>
+              <div class="timeline-desc">Integrated the Leap Motion SDK to read real-time palm velocity and position. Mapped forward thrust to punches, lateral movement to walking, vertical lift to dodge, and dual-hand push to fireball.</div>
             </div>
           </div>
 
           <div class="timeline-item">
             <div class="timeline-step">STEP 03</div>
             <div class="timeline-content">
-              <div class="timeline-title">Integration & Testing</div>
-              <div class="timeline-desc">Integrated with Unity's ECS framework. Ran stress tests with 10,000+ simultaneous objects maintaining 60fps.</div>
+              <div class="timeline-title">AI Opponent & Combat System</div>
+              <div class="timeline-desc">Built an autonomous OpponentAI that navigates toward the player, executes randomized attack combos with cooldown logic, and responds to damage with hit animations and health reduction.</div>
             </div>
           </div>
 
           <div class="timeline-item">
             <div class="timeline-step">STEP 04</div>
             <div class="timeline-content">
-              <div class="timeline-title">Optimization</div>
-              <div class="timeline-desc">Profiled and optimized hot paths using Unity's Burst compiler and job system for multi-threaded execution.</div>
+              <div class="timeline-title">Polish & Game Loop</div>
+              <div class="timeline-desc">Added particle effects on each attack, spatial audio with randomized hit sounds, background music, win/lose panels, and a game manager handling scene transitions and time control.</div>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- Outcome -->
       <div class="detail-block">
         <div class="outcome-box">
           <div class="outcome-label">Outcome</div>
-          <!-- ✏️ SỬA: Kết quả đạt được -->
           <div class="outcome-text">
-            Achieved 3× performance improvement over Unity's built-in physics for the target use case.
-            Successfully deployed in a graduation capstone simulation project.
+            A fully playable fighting game controlled entirely through bare hands — no keyboard, no mouse, no gamepad.
+            The system reliably distinguishes jabs, hooks, dodges, and fireballs in real time using palm velocity thresholds,
+            demonstrating a novel physical-digital interaction model for gaming.
           </div>
         </div>
       </div>
 
-      <!-- Tech Stack -->
       <div class="detail-block">
         <div class="detail-label">Tech Stack</div>
         <div style="display:flex; flex-wrap:wrap; gap:0.4rem">
-          <!-- ✏️ SỬA: Tech stack thật -->
-          <span class="proj-tag">Unity 2023</span>
+          <span class="proj-tag">Unity 6</span>
           <span class="proj-tag">C#</span>
-          <span class="proj-tag">DOTS / ECS</span>
-          <span class="proj-tag">Burst Compiler</span>
-          <span class="proj-tag">Job System</span>
+          <span class="proj-tag">Ultraleap SDK</span>
+          <span class="proj-tag">SolidWorks</span>
+          <span class="proj-tag">3D Printing</span>
+          <span class="proj-tag">Serial Communication</span>
+          <span class="proj-tag">Mixamo</span>
         </div>
       </div>
 
-      <!-- Links -->
       <div class="detail-block">
         <div class="detail-label">Links</div>
         <div class="proj-links-row">
-          <!-- ✏️ SỬA: Link thật -->
           <a href="https://github.com/Vuyne" target="_blank" class="proj-link">GitHub →</a>
-          <a href="#" class="proj-link outline">Live Demo →</a>
+          <a href="#" class="proj-link outline">Demo Video →</a>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- RELATED PROJECTS -->
   <div class="related">
     <div class="related-label">More from Technical Work</div>
     <div class="related-grid">
-
-      <!-- ✏️ SỬA: href và nội dung related projects -->
       <div class="related-card" onclick="location.href='project.html'">
         <div class="related-num">002 — 2024</div>
         <div class="related-title">NLP Classifier</div>
         <div class="related-sub">Python · PyTorch</div>
       </div>
-
       <div class="related-card" onclick="location.href='project.html'">
         <div class="related-num">003 — 2023</div>
         <div class="related-title">Arduino Robot</div>
         <div class="related-sub">C++ · Hardware</div>
       </div>
-
       <div class="related-card" onclick="location.href='gallery.html'" style="background:var(--ink); color:var(--paper)">
         <div class="related-num" style="color:#555">ALL</div>
         <div class="related-title">View All Technical Work</div>
         <div class="related-sub" style="color:#555">Gallery →</div>
       </div>
-
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer class="page-footer">
     <span>© 2026 Vy Lo</span>
-    <span>PROJECT 001 — SIMULATION ENGINE</span>
+    <span>PROJECT 001 — NO BUTTON FIGHTER</span>
     <span><a href="gallery.html" style="color:var(--muted)">← Back to Gallery</a></span>
   </footer>
 
