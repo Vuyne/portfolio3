@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Dataset EDA — Vy Lo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:      #1a1714;
+      --paper:    #f0ebe0;
+      --paper-md: #e8e0d0;
+      --paper-dk: #ddd4c0;
+      --accent:   #c4392b;
+      --muted:    #8a7f72;
+      --border:   1.5px solid #1a1714;
+      --thin:     1px solid #1a1714;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Space Mono', monospace; cursor: crosshair; }
+    a { color: inherit; text-decoration: none; }
+
+    .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem; border-bottom: var(--border);
+      position: sticky; top: 0; background: var(--paper); z-index: 100;
+    }
+    .nav-left { display:flex; align-items:center; gap:1.5rem; }
+    .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
+    .back-btn::before { content:'←'; }
+    .back-btn:hover { color:var(--ink); }
+    .nav-divider { width:1px; height:16px; background:var(--muted); opacity:0.4; }
+    .nav-logo { font-family:'Noto Serif JP',serif; font-weight:700; font-size:12px; letter-spacing:0.35em; }
+    .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; }
+
+    .proj-header {
+      border-bottom: var(--border); padding: 2rem 2.5rem;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+    }
+    .proj-header-left { display:flex; flex-direction:column; gap:0.5rem; }
+    .proj-num { font-size:9px; color:var(--muted); border:1px solid var(--muted); padding:2px 6px; display:inline-block; }
+    .proj-title { font-family:'Noto Serif JP',serif; font-size:clamp(28px,4vw,56px); font-weight:900; line-height:0.95; }
+    .proj-title .accent { color:var(--accent); }
+    .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:40%; }
+    .note-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
+
+    .proj-body {
+      display: grid; grid-template-columns: 1fr 420px;
+      min-height: calc(100vh - 120px); border-bottom: var(--border);
+    }
+
+    .proj-images { border-right: var(--border); display:flex; flex-direction:column; }
+    .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
+    .img-placeholder {
+      width:100%; height:100%; min-height:300px; background:var(--paper-dk);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
+
+    .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
+    .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
+    .img-thumb:last-child { border-right:none; }
+    .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
+
+    .proj-detail {
+      padding: 2.5rem 2rem; display:flex; flex-direction:column; gap:2rem;
+      overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px);
+    }
+    .detail-block { padding-bottom:2rem; border-bottom:var(--thin); }
+    .detail-block:last-child { border-bottom:none; padding-bottom:0; }
+    .detail-label { font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
+    .detail-body { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; }
+
+    .timeline { display:flex; flex-direction:column; }
+    .timeline-item { display:grid; grid-template-columns:60px 1fr; gap:1rem; padding:1rem 0; border-bottom:var(--thin); }
+    .timeline-item:last-child { border-bottom:none; }
+    .timeline-step { font-size:8px; letter-spacing:0.15em; color:var(--muted); padding-top:2px; }
+    .timeline-title { font-family:'Noto Serif JP',serif; font-size:13px; font-weight:700; margin-bottom:0.3rem; }
+    .timeline-desc { font-size:10px; color:var(--muted); line-height:1.7; letter-spacing:0.03em; }
+
+    .outcome-box { background:var(--ink); color:var(--paper); padding:1.25rem; }
+    .outcome-label { font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:#888; margin-bottom:0.5rem; }
+    .outcome-text { font-family:'IM Fell English',serif; font-style:italic; font-size:14px; line-height:1.7; }
+
+    .proj-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
+
+    .proj-link {
+      display:inline-flex; align-items:center; gap:0.5rem; font-size:8px;
+      letter-spacing:0.2em; text-transform:uppercase; background:var(--ink);
+      color:var(--paper); padding:10px 18px; transition:background 0.2s;
+    }
+    .proj-link:hover { background:var(--accent); }
+    .proj-link.outline { background:transparent; color:var(--ink); border:var(--thin); }
+    .proj-link.outline:hover { background:var(--paper-dk); }
+    .proj-links-row { display:flex; gap:0.5rem; flex-wrap:wrap; }
+
+    .related { border-top:var(--border); padding:2rem 2.5rem; }
+    .related-label { font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:1.5rem; }
+    .related-grid { display:grid; grid-template-columns:repeat(3,1fr); }
+    .related-card { border:var(--thin); padding:1.5rem; margin:-0.5px; cursor:pointer; transition:background 0.2s; }
+    .related-card:hover { background:var(--paper-dk); }
+    .related-num { font-size:8px; color:var(--muted); letter-spacing:0.2em; margin-bottom:0.4rem; }
+    .related-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:700; margin-bottom:0.3rem; }
+    .related-sub { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
+
+    .page-footer {
+      border-top:var(--border); padding:1rem 2.5rem; display:flex;
+      justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="dot"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav>
+    <div class="nav-left">
+      <a href="gallery-dataai.html" class="back-btn">Back to Data & AI</a>
+      <div class="nav-divider"></div>
+      <div class="nav-logo">V y L o</div>
+    </div>
+    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 001</div>
+  </nav>
+
+  <div class="proj-header">
+    <div class="proj-header-left">
+      <div class="proj-num">001 — 2025</div>
+      <h1 class="proj-title">Multi-Dataset<br><span class="accent">EDA</span></h1>
+    </div>
+    <div class="proj-header-right">
+      <span class="note-tag">Python</span>
+      <span class="note-tag">Pandas</span>
+      <span class="note-tag">Matplotlib</span>
+      <span class="note-tag">Plotly Express</span>
+      <span class="note-tag">Seaborn</span>
+      <span class="note-tag">Jupyter</span>
+    </div>
+  </div>
+
+  <div class="proj-body">
+
+    <div class="proj-images">
+      <div class="img-main">
+        <div class="img-placeholder"><span>探</span></div>
+      </div>
+      <div class="img-thumbs">
+        <div class="img-thumb">
+          <span class="img-thumb-label">DISTRIBUTIONS</span>
+          <div class="img-placeholder" style="min-height:0;height:100%">
+            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">統</span>
+          </div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">CORRELATIONS</span>
+          <div class="img-placeholder" style="min-height:0;height:100%">
+            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">関</span>
+          </div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">INSIGHTS</span>
+          <div class="img-placeholder" style="min-height:0;height:100%">
+            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">知</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-detail">
+
+      <div class="detail-block">
+        <div class="detail-label">Overview</div>
+        <p class="detail-body">
+          A comprehensive exploratory data analysis project spanning multiple real-world datasets.
+          Using the full Python data stack — Pandas for wrangling, Matplotlib for static plots,
+          Plotly Express for interactive visualisations — the work uncovers hidden patterns,
+          outliers, distributions, and correlations across varied data domains.
+        </p>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Process</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-step">STEP 01</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Data Ingestion & Cleaning</div>
+              <div class="timeline-desc">Loaded multiple datasets, handled missing values, removed duplicates, normalised data types, and documented each dataset's provenance and structure.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">STEP 02</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Univariate Analysis</div>
+              <div class="timeline-desc">Examined individual feature distributions using histograms, KDE plots, and box plots. Identified skewness, outliers, and key statistical summaries per column.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">STEP 03</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Multivariate Exploration</div>
+              <div class="timeline-desc">Built correlation heatmaps, pair plots, and scatter matrices. Used Plotly Express for interactive drill-down views to surface relationships between features.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">STEP 04</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Insight Communication</div>
+              <div class="timeline-desc">Documented findings in structured Jupyter notebooks with annotated charts, written observations, and reproducible code blocks for each dataset.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="outcome-box">
+          <div class="outcome-label">Outcome</div>
+          <div class="outcome-text">
+            A reproducible EDA pipeline adaptable to any tabular dataset — demonstrating
+            fluency across the full analysis workflow from raw ingestion to actionable insight,
+            with both static and interactive visualisation outputs.
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Tech Stack</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Pandas</span>
+          <span class="proj-tag">Matplotlib</span>
+          <span class="proj-tag">Plotly Express</span>
+          <span class="proj-tag">Seaborn</span>
+          <span class="proj-tag">Jupyter Notebook</span>
+          <span class="proj-tag">NumPy</span>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Links</div>
+        <div class="proj-links-row">
+          <a href="https://github.com/Vuyne" target="_blank" class="proj-link">GitHub →</a>
+          <a href="#" class="proj-link outline">Notebook →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="related">
+    <div class="related-label">More from Data & AI</div>
+    <div class="related-grid">
+      <div class="related-card" onclick="location.href='project-IRIS.html'">
+        <div class="related-num">002 — 2025</div>
+        <div class="related-title">Iris Classifier</div>
+        <div class="related-sub">Python · Scikit-learn</div>
+      </div>
+      <div class="related-card" onclick="location.href='project-NLP-IPA.html'">
+        <div class="related-num">003 — 2025–2026</div>
+        <div class="related-title">NLP IPA Research</div>
+        <div class="related-sub">Speech · Phonology</div>
+      </div>
+      <div class="related-card" onclick="location.href='gallery-dataai.html'" style="background:var(--ink);color:var(--paper)">
+        <div class="related-num" style="color:#555">ALL</div>
+        <div class="related-title">View All Data & AI</div>
+        <div class="related-sub" style="color:#555">Gallery →</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span>© 2026 Vy Lo</span>
+    <span>PROJECT 001 — MULTI-DATASET EDA</span>
+    <span><a href="gallery-dataai.html" style="color:var(--muted)">← Back to Gallery</a></span>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('dot');
+    const ring = document.getElementById('ring');
+    document.addEventListener('mousemove', e => {
+      dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
+      ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px';
+    });
+    document.querySelectorAll('a, .related-card, .img-thumb, .proj-link').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
+        ring.style.width = '48px'; ring.style.height = '48px';
+        ring.style.borderColor = 'var(--accent)';
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.width = '28px'; ring.style.height = '28px';
+        ring.style.borderColor = 'var(--ink)';
+      });
+    });
+  </script>
+
+</body>
+</html>
