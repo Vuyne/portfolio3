@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art, Design & Photography — Vy Lo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:      #1a1714;
+      --paper:    #f0ebe0;
+      --paper-md: #e8e0d0;
+      --paper-dk: #ddd4c0;
+      --accent:   #c4392b;
+      --muted:    #8a7f72;
+      --border:   1.5px solid #1a1714;
+      --thin:     1px solid #1a1714;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--paper); color:var(--ink); font-family:'Space Mono',monospace; cursor:crosshair; }
+    a { color:inherit; text-decoration:none; }
+
+    .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
+
+    /* ── NAV ── */
+    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2.5rem; border-bottom:var(--border); position:sticky; top:0; background:var(--paper); z-index:100; }
+    .nav-left { display:flex; align-items:center; gap:1.5rem; }
+    .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; display:flex; align-items:center; gap:0.5rem; color:var(--muted); transition:color 0.2s; }
+    .back-btn:hover { color:var(--ink); }
+    .back-btn::before { content:'←'; }
+    .nav-divider { width:1px; height:16px; background:var(--muted); opacity:0.4; }
+    .nav-logo { font-family:'Noto Serif JP',serif; font-weight:700; font-size:12px; letter-spacing:0.35em; }
+    .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; }
+
+    /* ── MASTHEAD — newspaper front page feel ── */
+    .masthead {
+      border-bottom: var(--border);
+      padding: 2.5rem 2.5rem 0;
+    }
+
+    .masthead-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 1.5rem;
+      border-bottom: 3px solid var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .masthead-left { display:flex; flex-direction:column; gap:0.5rem; }
+
+    .masthead-eyebrow {
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .masthead-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(48px, 7vw, 100px);
+      font-weight: 900;
+      line-height: 0.88;
+    }
+    .masthead-title .accent { color: var(--accent); }
+
+    .masthead-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .masthead-jp {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      height: 120px;
+    }
+
+    .hobby-stamp {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      padding: 6px 12px;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transform: rotate(2deg);
+      display: inline-block;
+    }
+
+    .masthead-bottom {
+      display: flex;
+      gap: 2rem;
+      padding-bottom: 1.5rem;
+      align-items: flex-end;
+    }
+
+    .masthead-quote {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 520px;
+      border-left: 3px solid var(--accent);
+      padding-left: 1.25rem;
+      flex: 1;
+    }
+
+    .masthead-disciplines {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 280px;
+    }
+
+    .disc-pill {
+      font-size: 7px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: var(--thin);
+      padding: 3px 9px;
+    }
+    .disc-pill.filled { background:var(--ink); color:var(--paper); }
+
+    /* ── TICKER ── */
+    .ticker { background:var(--ink); color:var(--paper); padding:8px 0; overflow:hidden; white-space:nowrap; }
+    .ticker-track { display:inline-block; animation:ticker 30s linear infinite; font-size:9px; letter-spacing:0.25em; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── SECTION LABEL ── */
+    .section-bar {
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      align-items: center;
+      border-bottom: var(--border);
+      padding: 0.6rem 2.5rem;
+      gap: 1rem;
+    }
+    .section-bar-num { font-size:9px; letter-spacing:0.25em; color:var(--muted); text-transform:uppercase; }
+    .section-bar-name { font-family:'Noto Serif JP',serif; font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+    .section-bar-note { font-size:8px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; }
+
+    /* ── SHARED IMAGE SLOT ── */
+    .img-slot {
+      width:100%; height:100%;
+      background: var(--paper-dk);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background 0.3s;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-slot img {
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      transition: transform 0.4s ease;
+    }
+    .img-slot:hover img { transform: scale(1.04); }
+    .img-slot-label {
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .img-slot-char {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--paper-md);
+    }
+    /* When real image is added, hide placeholder text */
+    .img-slot.has-img .img-slot-char,
+    .img-slot.has-img .img-slot-label { display:none; }
+
+    /* ══════════════════════════════
+       SECTION 1 — BOARDGAME DESIGN
+       Full editorial feature
+    ══════════════════════════════ */
+    .boardgame-feature {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: var(--border);
+      min-height: 400px;
+    }
+
+    .bg-cell {
+      border-right: var(--thin);
+      overflow: hidden;
+      position: relative;
+    }
+    .bg-cell:last-child { border-right: none; }
+
+    .bg-cell-wide {
+      grid-column: span 1;
+    }
+
+    .bg-text-cell {
+      padding: 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: var(--thin);
+    }
+
+    .bg-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(22px, 2.5vw, 34px);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+    .bg-title .accent { color:var(--accent); }
+
+    .bg-body {
+      font-family: 'IM Fell English', serif;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--muted);
+      flex: 1;
+      margin: 1rem 0;
+    }
+
+    .bg-scope {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: var(--thin);
+    }
+    .bg-scope-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      border-bottom: var(--thin);
+      font-size: 8px;
+    }
+    .bg-scope-row:last-child { border-bottom: none; }
+    .bg-scope-key { padding:0.5rem 0.75rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; border-right:var(--thin); }
+    .bg-scope-val { padding:0.5rem 0.75rem; letter-spacing:0.05em; }
+
+    /* ══════════════════════════════
+       SECTION 2 — BRANDING / LOGO
+    ══════════════════════════════ */
+    .branding-section {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      border-bottom: var(--border);
+      min-height: 320px;
+    }
+
+    .branding-info {
+      padding: 2rem 2rem;
+      border-right: var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .branding-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 900;
+      line-height: 1;
+    }
+    .branding-title .accent { color:var(--accent); }
+
+    .branding-sub { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
+
+    .branding-body {
+      font-family: 'IM Fell English', serif;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .branding-deliverables {
+      display: flex;
+      flex-direction: column;
+      gap:0;
+      border: var(--thin);
+    }
+    .deliv-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.75rem;
+      border-bottom: var(--thin);
+      font-size: 8px;
+      letter-spacing: 0.1em;
+    }
+    .deliv-row:last-child { border-bottom: none; }
+    .deliv-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+
+    .branding-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .branding-img-cell {
+      border-left: var(--thin);
+      border-bottom: var(--thin);
+      overflow: hidden;
+      position: relative;
+    }
+    .branding-img-cell:nth-child(2n+1) { border-left: none; }
+    .branding-img-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+    /* ══════════════════════════════
+       SECTION 3 — CHARACTER & COMIC
+       Masonry-feel grid
+    ══════════════════════════════ */
+    .character-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      border-bottom: var(--border);
+    }
+
+    .char-cell {
+      border-right: var(--thin);
+      overflow: hidden;
+      position: relative;
+    }
+    .char-cell:last-child { border-right: none; }
+    .char-cell.tall { grid-row: span 2; }
+    .char-cell.text-cell {
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .char-kicker { font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:0.5rem; }
+    .char-title { font-family:'Noto Serif JP',serif; font-size:clamp(18px,2vw,26px); font-weight:900; line-height:1; margin-bottom:0.75rem; color:var(--paper); }
+    .char-body { font-family:'IM Fell English',serif; font-style:italic; font-size:12px; line-height:1.7; color:#aaa; }
+    .char-tags { display:flex; gap:0.3rem; flex-wrap:wrap; margin-top:1rem; }
+    .char-tag { font-size:7px; letter-spacing:0.12em; text-transform:uppercase; border:1px solid #444; color:#888; padding:2px 7px; }
+
+    .cell-label {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      font-size: 7px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--paper);
+      border: var(--thin);
+      padding: 2px 7px;
+      z-index: 2;
+    }
+
+    /* ══════════════════════════════
+       SECTION 4 — REALISTIC & PHOTO
+       Split with different rhythms
+    ══════════════════════════════ */
+    .photo-section {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      border-bottom: var(--border);
+      min-height: 480px;
+    }
+
+    .photo-left {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      border-right: var(--border);
+    }
+
+    .photo-cell {
+      border-right: var(--thin);
+      border-bottom: var(--thin);
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-cell:nth-child(3n) { border-right: none; }
+    .photo-cell:nth-last-child(-n+3) { border-bottom: none; }
+    .photo-cell.wide { grid-column: span 2; }
+
+    .photo-sidebar {
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .photo-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 900;
+      line-height: 1;
+    }
+    .photo-title .accent { color:var(--accent); }
+
+    .photo-body {
+      font-family: 'IM Fell English', serif;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .photo-subjects {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: var(--thin);
+    }
+    .subject-row {
+      padding: 0.6rem 0.9rem;
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-bottom: var(--thin);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .subject-row:last-child { border-bottom: none; }
+    .subject-row::before { content:''; display:block; width:4px; height:4px; border-radius:50%; background:var(--ink); flex-shrink:0; }
+
+    .realistic-note {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 1rem 1.25rem;
+    }
+    .realistic-note-lbl { font-size:7px; letter-spacing:0.25em; text-transform:uppercase; color:#666; margin-bottom:0.4rem; }
+    .realistic-note-text { font-family:'IM Fell English',serif; font-style:italic; font-size:12px; line-height:1.6; color:#bbb; }
+
+    /* ── TOOLS STRIP ── */
+    .tools-strip {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-bottom: var(--border);
+    }
+    .tool-cell {
+      padding: 1.25rem 1.5rem;
+      border-right: var(--thin);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .tool-cell:last-child { border-right: none; }
+    .tool-name { font-family:'Noto Serif JP',serif; font-size:12px; font-weight:700; }
+    .tool-use { font-size:8px; letter-spacing:0.1em; color:var(--muted); line-height:1.5; }
+
+    /* ── FOOTER ── */
+    .page-footer { border-top:var(--border); padding:1rem 2.5rem; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em; }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="dot"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav>
+    <div class="nav-left">
+      <a href="index.html" class="back-btn">Back to Portfolio</a>
+      <div class="nav-divider"></div>
+      <div class="nav-logo">V y L o</div>
+    </div>
+    <div class="nav-meta">ART, DESIGN & PHOTOGRAPHY</div>
+  </nav>
+
+  <!-- ── MASTHEAD ── -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <div class="masthead-left">
+        <div class="masthead-eyebrow">Category 07 &nbsp;/&nbsp; Creative Practice</div>
+        <h1 class="masthead-title">Art, Design<br>&amp; <span class="accent">Photo.</span></h1>
+      </div>
+      <div class="masthead-right">
+        <div class="masthead-jp">芸術・デザイン・写真</div>
+        <div class="hobby-stamp">Hobby &amp; Practice</div>
+      </div>
+    </div>
+    <div class="masthead-bottom">
+      <p class="masthead-quote">
+        "The same eye that frames a photograph informs how I design an interface.
+        The same hand that draws characters builds better simulations.
+        This is the other half of how I think."
+      </p>
+      <div class="masthead-disciplines">
+        <span class="disc-pill filled">Boardgame Design</span>
+        <span class="disc-pill filled">Brand Identity</span>
+        <span class="disc-pill">Character Design</span>
+        <span class="disc-pill">Comic / Storyboard</span>
+        <span class="disc-pill">Realistic Drawing</span>
+        <span class="disc-pill">Landscape Photo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TICKER ── -->
+  <div class="ticker">
+    <span class="ticker-track">
+      BOARDGAME &nbsp;◆&nbsp; BRAND IDENTITY &nbsp;◆&nbsp; CHARACTER DESIGN &nbsp;◆&nbsp; COMIC &nbsp;◆&nbsp; REALISTIC DRAWING &nbsp;◆&nbsp; LANDSCAPE PHOTOGRAPHY &nbsp;◆&nbsp; CLIP STUDIO &nbsp;◆&nbsp; 芸術・デザイン &nbsp;◆&nbsp;
+      BOARDGAME &nbsp;◆&nbsp; BRAND IDENTITY &nbsp;◆&nbsp; CHARACTER DESIGN &nbsp;◆&nbsp; COMIC &nbsp;◆&nbsp; REALISTIC DRAWING &nbsp;◆&nbsp; LANDSCAPE PHOTOGRAPHY &nbsp;◆&nbsp; CLIP STUDIO &nbsp;◆&nbsp; 芸術・デザイン &nbsp;◆&nbsp;
+    </span>
+  </div>
+
+  <!-- ══════════════════════
+       01 — BOARDGAME DESIGN
+  ══════════════════════ -->
+  <div class="section-bar">
+    <div class="section-bar-num">01 &nbsp;/&nbsp; Game Design</div>
+    <div class="section-bar-name">Boardgame — Full Production</div>
+    <div class="section-bar-note">Mechanism · Visual · Material</div>
+  </div>
+
+  <div class="boardgame-feature">
+
+    <!-- Image col 1 — box cover -->
+    <div class="bg-cell">
+      <div class="img-slot" style="min-height:400px">
+        <!-- <img src="images/boardgame-cover.jpg" alt="Boardgame box cover"> -->
+        <span class="img-slot-char">盤</span>
+        <span class="img-slot-label">Box Cover</span>
+      </div>
+    </div>
+
+    <!-- Text col -->
+    <div class="bg-text-cell">
+      <div>
+        <h2 class="bg-title">Board<span class="accent">game</span><br>Design</h2>
+        <p class="bg-body">
+          Designed a complete boardgame from the ground up — not just the visuals,
+          but the entire system. Game mechanism, rulebook, card layouts, box cover,
+          component design, and physical material selection all handled from
+          concept to finished product.
+        </p>
+      </div>
+      <div class="bg-scope">
+        <div class="bg-scope-row">
+          <div class="bg-scope-key">Mechanism</div>
+          <div class="bg-scope-val">Core game loop, rules, win conditions, playtesting</div>
+        </div>
+        <div class="bg-scope-row">
+          <div class="bg-scope-key">Visual</div>
+          <div class="bg-scope-val">Box cover art, card illustration, iconography, colour system</div>
+        </div>
+        <div class="bg-scope-row">
+          <div class="bg-scope-key">Material</div>
+          <div class="bg-scope-val">Paper stock, card finish, component specs for production</div>
+        </div>
+        <div class="bg-scope-row">
+          <div class="bg-scope-key">Tools</div>
+          <div class="bg-scope-val">Clip Studio Paint · Illustrator · Physical prototyping</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image col 2 — components/cards -->
+    <div class="bg-cell">
+      <div class="img-slot" style="min-height:200px; height:50%">
+        <!-- <img src="images/boardgame-cards.jpg" alt="Game cards"> -->
+        <span class="img-slot-char">札</span>
+        <span class="img-slot-label">Cards</span>
+      </div>
+      <div class="img-slot" style="min-height:200px; height:50%; border-top:var(--thin)">
+        <!-- <img src="images/boardgame-components.jpg" alt="Game components"> -->
+        <span class="img-slot-char">具</span>
+        <span class="img-slot-label">Components</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════
+       02 — BRAND IDENTITY
+  ══════════════════════ -->
+  <div class="section-bar">
+    <div class="section-bar-num">02 &nbsp;/&nbsp; Branding</div>
+    <div class="section-bar-name">Silver Jewellery Brand — Logo & Identity</div>
+    <div class="section-bar-note">Vietnam &nbsp;·&nbsp; End-to-End</div>
+  </div>
+
+  <div class="branding-section">
+    <div class="branding-info">
+      <div>
+        <div class="branding-sub">Brand Identity &nbsp;·&nbsp; Vietnam</div>
+        <h2 class="branding-title">Silver<br><span class="accent">Jewellery</span><br>Branding</h2>
+      </div>
+      <p class="branding-body">
+        Designed the complete visual identity for a silver jewellery shop in Vietnam —
+        from logo mark through to packaging, labels, and brand collateral.
+        The work required balancing elegant femininity with commercial clarity
+        for a local retail context.
+      </p>
+      <div class="branding-deliverables">
+        <div class="deliv-row"><div class="deliv-dot"></div>Logo design — primary mark + variations</div>
+        <div class="deliv-row"><div class="deliv-dot"></div>Brand colour palette + typography system</div>
+        <div class="deliv-row"><div class="deliv-dot"></div>Packaging design — boxes, bags, tags</div>
+        <div class="deliv-row"><div class="deliv-dot"></div>Brand collateral — stickers, cards, labels</div>
+      </div>
+    </div>
+
+    <div class="branding-images">
+      <div class="branding-img-cell">
+        <div class="img-slot">
+          <!-- <img src="images/brand-logo.jpg" alt="Logo design"> -->
+          <span class="img-slot-char">印</span>
+          <span class="img-slot-label">Logo</span>
+        </div>
+      </div>
+      <div class="branding-img-cell">
+        <div class="img-slot">
+          <!-- <img src="images/brand-palette.jpg" alt="Brand palette"> -->
+          <span class="img-slot-char">色</span>
+          <span class="img-slot-label">Palette</span>
+        </div>
+      </div>
+      <div class="branding-img-cell">
+        <div class="img-slot">
+          <!-- <img src="images/brand-packaging.jpg" alt="Packaging"> -->
+          <span class="img-slot-char">包</span>
+          <span class="img-slot-label">Packaging</span>
+        </div>
+      </div>
+      <div class="branding-img-cell">
+        <div class="img-slot">
+          <!-- <img src="images/brand-collateral.jpg" alt="Collateral"> -->
+          <span class="img-slot-char">物</span>
+          <span class="img-slot-label">Collateral</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════
+       03 — CHARACTER & COMIC
+  ══════════════════════ -->
+  <div class="section-bar">
+    <div class="section-bar-num">03 &nbsp;/&nbsp; Illustration</div>
+    <div class="section-bar-name">Character Design & Comic</div>
+    <div class="section-bar-note">Clip Studio Paint &nbsp;·&nbsp; Ongoing</div>
+  </div>
+
+  <div class="character-section">
+
+    <!-- Text cell dark — spans 2 rows -->
+    <div class="char-cell text-cell" style="grid-row:span 2;">
+      <div>
+        <div class="char-kicker">Character Design</div>
+        <h2 class="char-title">Original<br>Characters<br>&amp; Comic</h2>
+        <p class="char-body">
+          Character designs for games and personal projects — each with distinct silhouette,
+          costume logic, and expression sheets. Also writes and co-illustrates an original
+          comic, handling the full screenplay and story structure.
+        </p>
+      </div>
+      <div class="char-tags">
+        <span class="char-tag">Clip Studio</span>
+        <span class="char-tag">Character Sheet</span>
+        <span class="char-tag">Storyboard</span>
+        <span class="char-tag">Screenplay</span>
+      </div>
+    </div>
+
+    <!-- Character image 1 -->
+    <div class="char-cell">
+      <div class="img-slot" style="min-height:240px">
+        <!-- <img src="images/char-01.jpg" alt="Character design 1"> -->
+        <span class="img-slot-char">キャ</span>
+        <span class="img-slot-label">Character 01</span>
+      </div>
+      <span class="cell-label">GAME CHARACTER</span>
+    </div>
+
+    <!-- Character image 2 -->
+    <div class="char-cell">
+      <div class="img-slot" style="min-height:240px">
+        <!-- <img src="images/char-02.jpg" alt="Character design 2"> -->
+        <span class="img-slot-char">ラク</span>
+        <span class="img-slot-label">Character 02</span>
+      </div>
+      <span class="cell-label">ORIGINAL</span>
+    </div>
+
+    <!-- Comic panel -->
+    <div class="char-cell">
+      <div class="img-slot" style="min-height:240px">
+        <!-- <img src="images/comic-panel.jpg" alt="Comic panel"> -->
+        <span class="img-slot-char">漫</span>
+        <span class="img-slot-label">Comic Panel</span>
+      </div>
+      <span class="cell-label">COMIC</span>
+    </div>
+
+    <!-- Misc illustration -->
+    <div class="char-cell">
+      <div class="img-slot" style="min-height:240px">
+        <!-- <img src="images/misc-illustration.jpg" alt="Misc illustration"> -->
+        <span class="img-slot-char">絵</span>
+        <span class="img-slot-label">Illustration</span>
+      </div>
+      <span class="cell-label">MISC</span>
+    </div>
+
+    <!-- Expression sheet -->
+    <div class="char-cell">
+      <div class="img-slot" style="min-height:240px">
+        <!-- <img src="images/expression-sheet.jpg" alt="Expression sheet"> -->
+        <span class="img-slot-char">顔</span>
+        <span class="img-slot-label">Expressions</span>
+      </div>
+      <span class="cell-label">EXPRESSION SHEET</span>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════
+       04 — REALISTIC & PHOTO
+  ══════════════════════ -->
+  <div class="section-bar">
+    <div class="section-bar-num">04 &nbsp;/&nbsp; Fine Work</div>
+    <div class="section-bar-name">Realistic Drawing & Landscape Photography</div>
+    <div class="section-bar-note">Personal Practice &nbsp;·&nbsp; Ongoing</div>
+  </div>
+
+  <div class="photo-section">
+
+    <!-- Photo grid left -->
+    <div class="photo-left">
+      <div class="photo-cell wide">
+        <div class="img-slot" style="min-height:240px">
+          <!-- <img src="images/photo-landscape-hero.jpg" alt="Landscape hero"> -->
+          <span class="img-slot-char">景</span>
+          <span class="img-slot-label">Landscape Hero</span>
+        </div>
+        <span class="cell-label">LANDSCAPE</span>
+      </div>
+      <div class="photo-cell">
+        <div class="img-slot" style="min-height:200px">
+          <!-- <img src="images/photo-02.jpg" alt="Landscape 2"> -->
+          <span class="img-slot-char">空</span>
+          <span class="img-slot-label">Sky</span>
+        </div>
+      </div>
+      <div class="photo-cell">
+        <div class="img-slot" style="min-height:200px">
+          <!-- <img src="images/photo-03.jpg" alt="Landscape 3"> -->
+          <span class="img-slot-char">水</span>
+          <span class="img-slot-label">Water</span>
+        </div>
+      </div>
+      <div class="photo-cell">
+        <div class="img-slot" style="min-height:200px">
+          <!-- <img src="images/realistic-01.jpg" alt="Realistic drawing"> -->
+          <span class="img-slot-char">描</span>
+          <span class="img-slot-label">Realistic</span>
+        </div>
+        <span class="cell-label">REALISTIC DRAWING</span>
+      </div>
+    </div>
+
+    <!-- Sidebar right -->
+    <div class="photo-sidebar">
+      <div>
+        <h2 class="photo-title">Realistic<br>Drawing &amp;<br><span class="accent">Photo</span></h2>
+        <div style="font-size:8px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-top:0.5rem;">Personal Practice</div>
+      </div>
+
+      <p class="photo-body">
+        Landscape photography shot across multiple locations — chasing light,
+        framing negative space, finding geometry in nature. Realistic drawing
+        practice focused on observational accuracy, value studies, and texture rendering.
+      </p>
+
+      <div>
+        <div style="font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:0.5rem;">Subjects</div>
+        <div class="photo-subjects">
+          <div class="subject-row">Landscape & Nature</div>
+          <div class="subject-row">Architecture & Urban</div>
+          <div class="subject-row">Light & Shadow Studies</div>
+          <div class="subject-row">Portraits — Realistic</div>
+          <div class="subject-row">Still Life & Texture</div>
+        </div>
+      </div>
+
+      <div class="realistic-note">
+        <div class="realistic-note-lbl">On Photography</div>
+        <div class="realistic-note-text">
+          "The discipline of finding a frame teaches you how to edit —
+          what to include, what to leave out. It's the same muscle
+          as good interface design."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOOLS STRIP ── -->
+  <div class="tools-strip">
+    <div class="tool-cell">
+      <div class="tool-name">Clip Studio</div>
+      <div class="tool-use">Character · Comic · Illustration</div>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-name">Illustrator</div>
+      <div class="tool-use">Logo · Brand · Vector</div>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-name">Photoshop</div>
+      <div class="tool-use">Photo editing · Compositing</div>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-name">Procreate</div>
+      <div class="tool-use">Sketching · Colour studies</div>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-name">Camera</div>
+      <div class="tool-use">Landscape · Travel photography</div>
+    </div>
+    <div class="tool-cell" style="background:var(--ink); color:var(--paper);">
+      <div class="tool-name" style="color:var(--paper);">Pencil &<br>Paper</div>
+      <div class="tool-use" style="color:#666;">Realistic drawing · Thumbnails</div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span>© 2026 Vy Lo</span>
+    <span>ART, DESIGN & PHOTOGRAPHY — 芸術・デザイン・写真</span>
+    <span><a href="index.html" style="color:var(--muted)">← Back to Portfolio</a></span>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('dot');
+    const ring = document.getElementById('ring');
+    document.addEventListener('mousemove', e => {
+      dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
+      ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px';
+    });
+    document.querySelectorAll('a, .img-slot, .tool-cell').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
+        ring.style.width = '48px'; ring.style.height = '48px';
+        ring.style.borderColor = 'var(--accent)';
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.width = '28px'; ring.style.height = '28px';
+        ring.style.borderColor = 'var(--ink)';
+      });
+    });
+  </script>
+
+</body>
+</html>

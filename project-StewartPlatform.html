@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iris Classifier — Vy Lo</title>
+  <title>Stewart Platform — Vy Lo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
@@ -18,19 +18,15 @@
       --border:   1.5px solid #1a1714;
       --thin:     1px solid #1a1714;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--paper); color: var(--ink); font-family: 'Space Mono', monospace; cursor: crosshair; }
-    a { color: inherit; text-decoration: none; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--paper); color:var(--ink); font-family:'Space Mono',monospace; cursor:crosshair; }
+    a { color:inherit; text-decoration:none; }
 
     .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
     .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
 
-    nav {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1rem 2.5rem; border-bottom:var(--border);
-      position:sticky; top:0; background:var(--paper); z-index:100;
-    }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2.5rem; border-bottom:var(--border); position:sticky; top:0; background:var(--paper); z-index:100; }
     .nav-left { display:flex; align-items:center; gap:1.5rem; }
     .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
     .back-btn::before { content:'←'; }
@@ -39,23 +35,23 @@
     .nav-logo { font-family:'Noto Serif JP',serif; font-weight:700; font-size:12px; letter-spacing:0.35em; }
     .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; }
 
-    .proj-header {
-      border-bottom:var(--border); padding:2rem 2.5rem;
-      display:flex; align-items:flex-end; justify-content:space-between; gap:2rem;
-    }
+    .proj-header { border-bottom:var(--border); padding:2rem 2.5rem; display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
     .proj-header-left { display:flex; flex-direction:column; gap:0.5rem; }
     .proj-num { font-size:9px; color:var(--muted); border:1px solid var(--muted); padding:2px 6px; display:inline-block; }
+    .proj-role { display:inline-flex; gap:0.5rem; align-items:center; margin-top:0.25rem; }
+    .role-pill { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; padding:3px 9px; border:var(--thin); }
+    .role-pill.solo { background:var(--accent); color:var(--paper); border-color:var(--accent); }
     .proj-title { font-family:'Noto Serif JP',serif; font-size:clamp(28px,4vw,56px); font-weight:900; line-height:0.95; }
     .proj-title .accent { color:var(--accent); }
-    .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:40%; }
+    .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:45%; }
     .note-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
 
     .proj-body { display:grid; grid-template-columns:1fr 420px; min-height:calc(100vh - 120px); border-bottom:var(--border); }
     .proj-images { border-right:var(--border); display:flex; flex-direction:column; }
-    .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
+    .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; }
     .img-placeholder { width:100%; height:100%; min-height:300px; background:var(--paper-dk); display:flex; align-items:center; justify-content:center; }
     .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
-    .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
+    .img-thumbs { display:grid; grid-template-columns:repeat(4,1fr); flex:1; }
     .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
     .img-thumb:last-child { border-right:none; }
     .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
@@ -66,20 +62,20 @@
     .detail-label { font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
     .detail-body { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; }
 
+    /* Discipline pills row — unique to this page */
+    .discipline-row { display:flex; flex-direction:column; gap:0; border:var(--thin); }
+    .discipline-item { display:grid; grid-template-columns:28px 1fr; align-items:center; padding:0.7rem 1rem; border-bottom:var(--thin); gap:0.75rem; }
+    .discipline-item:last-child { border-bottom:none; }
+    .discipline-icon { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:900; color:var(--accent); text-align:center; }
+    .discipline-name { font-size:9px; letter-spacing:0.15em; text-transform:uppercase; }
+    .discipline-sub { font-size:8px; color:var(--muted); letter-spacing:0.08em; margin-top:1px; }
+
     .timeline { display:flex; flex-direction:column; }
     .timeline-item { display:grid; grid-template-columns:60px 1fr; gap:1rem; padding:1rem 0; border-bottom:var(--thin); }
     .timeline-item:last-child { border-bottom:none; }
     .timeline-step { font-size:8px; letter-spacing:0.15em; color:var(--muted); padding-top:2px; }
     .timeline-title { font-family:'Noto Serif JP',serif; font-size:13px; font-weight:700; margin-bottom:0.3rem; }
     .timeline-desc { font-size:10px; color:var(--muted); line-height:1.7; letter-spacing:0.03em; }
-
-    /* Metrics bar — unique to this project */
-    .metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:var(--thin); margin-top:0.5rem; }
-    .metric-cell { padding:0.75rem 1rem; border-right:var(--thin); }
-    .metric-cell:last-child { border-right:none; }
-    .metric-val { font-family:'Noto Serif JP',serif; font-size:22px; font-weight:900; }
-    .metric-val .accent { color:var(--accent); }
-    .metric-key { font-size:7px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-top:0.2rem; }
 
     .outcome-box { background:var(--ink); color:var(--paper); padding:1.25rem; }
     .outcome-label { font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:#888; margin-bottom:0.5rem; }
@@ -111,24 +107,29 @@
 
   <nav>
     <div class="nav-left">
-      <a href="gallery-dataai.html" class="back-btn">Back to Data & AI</a>
+      <a href="gallery-fabrication.html" class="back-btn">Back to Arduino, CAD & Fabrication</a>
       <div class="nav-divider"></div>
       <div class="nav-logo">V y L o</div>
     </div>
-    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 002</div>
+    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 001</div>
   </nav>
 
   <div class="proj-header">
     <div class="proj-header-left">
-      <div class="proj-num">002 — 2026</div>
-      <h1 class="proj-title">Iris Classifier<br><span class="accent">Microservice</span></h1>
+      <div class="proj-num">001 — 2025–2026</div>
+      <div class="proj-role">
+        <span class="role-pill solo">Solo Project</span>
+      </div>
+      <h1 class="proj-title">Stewart<br><span class="accent">Platform</span></h1>
     </div>
     <div class="proj-header-right">
-      <span class="note-tag">Python</span>
-      <span class="note-tag">Scikit-learn</span>
-      <span class="note-tag">FastAPI</span>
-      <span class="note-tag">Docker</span>
-      <span class="note-tag">Pytest</span>
+      <span class="note-tag">SolidWorks</span>
+      <span class="note-tag">3D Printing</span>
+      <span class="note-tag">Laser Cutting</span>
+      <span class="note-tag">Eagle PCB</span>
+      <span class="note-tag">Arduino</span>
+      <span class="note-tag">C++</span>
+      <span class="note-tag">Serial Comm.</span>
     </div>
   </div>
 
@@ -136,25 +137,31 @@
 
     <div class="proj-images">
       <div class="img-main">
-        <div class="img-placeholder"><span>分</span></div>
+        <div class="img-placeholder"><span>台</span></div>
       </div>
       <div class="img-thumbs">
         <div class="img-thumb">
-          <span class="img-thumb-label">PAIR PLOT</span>
+          <span class="img-thumb-label">CAD</span>
           <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">対</span>
+            <span style="font-size:26px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">設</span>
           </div>
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">BOUNDARIES</span>
+          <span class="img-thumb-label">PCB</span>
           <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">境</span>
+            <span style="font-size:26px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">板</span>
           </div>
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">CONF. MATRIX</span>
+          <span class="img-thumb-label">ASSEMBLY</span>
           <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">行</span>
+            <span style="font-size:26px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">組</span>
+          </div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">IN ACTION</span>
+          <div class="img-placeholder" style="min-height:0;height:100%">
+            <span style="font-size:26px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">動</span>
           </div>
         </div>
       </div>
@@ -165,27 +172,50 @@
       <div class="detail-block">
         <div class="detail-label">Overview</div>
         <p class="detail-body">
-          An end-to-end Machine Learning microservice built using FastAPI and Docker to classify Iris species. 
-          Instead of a standard local model, this project implements a production-grade REST API with strict input 
-          data validation using Pydantic, automated pytest suites, and containerized deployment configuration to 
-          showcase real-world model serving practices.
+          A 6-DOF Stewart Platform built entirely solo — from SolidWorks mechanical design
+          through digital fabrication to embedded firmware. The platform physically tilts and
+          moves in response to serial commands from a Unity simulation, creating a tangible
+          motion-feedback device that bridges software and physical reality.
         </p>
       </div>
 
       <div class="detail-block">
-        <div class="detail-label">Key Metrics</div>
-        <div class="metrics-row">
-          <div class="metric-cell">
-            <div class="metric-val"><span class="accent">98.0</span>%</div>
-            <div class="metric-key">Best Accuracy</div>
+        <div class="detail-label">Disciplines Involved</div>
+        <div class="discipline-row">
+          <div class="discipline-item">
+            <div class="discipline-icon">設</div>
+            <div>
+              <div class="discipline-name">CAD Design</div>
+              <div class="discipline-sub">SolidWorks — full assembly, linkage geometry, servo mounts</div>
+            </div>
           </div>
-          <div class="metric-cell">
-            <div class="metric-val">~12ms</div>
-            <div class="metric-key">API Latency</div>
+          <div class="discipline-item">
+            <div class="discipline-icon">印</div>
+            <div>
+              <div class="discipline-name">3D Printing</div>
+              <div class="discipline-sub">FDM printed joints, platform plate, servo horn adapters</div>
+            </div>
           </div>
-          <div class="metric-cell">
-            <div class="metric-val">180MB</div>
-            <div class="metric-key">Docker Image</div>
+          <div class="discipline-item">
+            <div class="discipline-icon">切</div>
+            <div>
+              <div class="discipline-name">Laser Cutting</div>
+              <div class="discipline-sub">Acrylic base plate and structural panels — precision kerf-fit joints</div>
+            </div>
+          </div>
+          <div class="discipline-item">
+            <div class="discipline-icon">板</div>
+            <div>
+              <div class="discipline-name">PCB Design</div>
+              <div class="discipline-sub">Eagle — custom board routing servo power, signal lines, Arduino header</div>
+            </div>
+          </div>
+          <div class="discipline-item">
+            <div class="discipline-icon">码</div>
+            <div>
+              <div class="discipline-name">Arduino Firmware</div>
+              <div class="discipline-sub">C++ — inverse kinematics solver, serial parser, servo PWM output</div>
+            </div>
           </div>
         </div>
       </div>
@@ -196,29 +226,29 @@
           <div class="timeline-item">
             <div class="timeline-step">STEP 01</div>
             <div class="timeline-content">
-              <div class="timeline-title">Model Development & Tuning</div>
-              <div class="timeline-desc">Developed a Support Vector Machine (SVM) classifier in Scikit-learn with standard feature scaling. Serialized model and scaler payload together using joblib.</div>
+              <div class="timeline-title">Mechanical Design in SolidWorks</div>
+              <div class="timeline-desc">Modelled the full 6-DOF Stewart mechanism — top platform, base frame, six servo linkage arms, and ball-joint rod ends. Verified range of motion and interference clearance through assembly simulation before fabrication.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 02</div>
             <div class="timeline-content">
-              <div class="timeline-title">REST API with FastAPI</div>
-              <div class="timeline-desc">Built prediction and healthcheck endpoints. Utilized Pydantic schemas for parameter verification to ensure data boundaries are strictly enforced.</div>
+              <div class="timeline-title">Digital Fabrication</div>
+              <div class="timeline-desc">3D printed all custom joints and servo mounts in PLA. Laser-cut the acrylic base and top platform from SolidWorks DXF exports — kerf-compensated joints for press-fit assembly without adhesive.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 03</div>
             <div class="timeline-content">
-              <div class="timeline-title">Automated Unit Testing</div>
-              <div class="timeline-desc">Implemented a test suite using pytest to run verification on health statuses, model outputs, and boundary input validation errors.</div>
+              <div class="timeline-title">PCB Design in Eagle</div>
+              <div class="timeline-desc">Designed a custom shield for the Arduino Mega — routing six servo signal lines, shared power rail with decoupling capacitors, and pin headers for easy field replacement. Exported Gerbers for fabrication.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 04</div>
             <div class="timeline-content">
-              <div class="timeline-title">Containerization with Docker</div>
-              <div class="timeline-desc">Wrote a lightweight Dockerfile using python:slim image to bundle dependencies and run Uvicorn, isolating the microservice environment.</div>
+              <div class="timeline-title">Inverse Kinematics & Serial Firmware</div>
+              <div class="timeline-desc">Implemented a Stewart IK solver in C++ — translates target pose (roll, pitch, heave) into six individual servo angles using geometric linkage equations. Parses serial commands from Unity at 115200 baud for real-time motion response.</div>
             </div>
           </div>
         </div>
@@ -228,8 +258,9 @@
         <div class="outcome-box">
           <div class="outcome-label">Outcome</div>
           <div class="outcome-text">
-            A complete, self-contained machine learning microservice that can be built, tested, and deployed to 
-            cloud environments in minutes—demonstrating a bridge between statistical modeling and production software engineering.
+            A fully operational 6-DOF motion platform responding to live simulation data in real time —
+            integrating mechanical CAD, multi-process fabrication, custom PCB design, and embedded
+            inverse kinematics firmware into a single solo-built physical-digital system.
           </div>
         </div>
       </div>
@@ -237,14 +268,15 @@
       <div class="detail-block">
         <div class="detail-label">Tech Stack</div>
         <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">Scikit-learn</span>
-          <span class="proj-tag">FastAPI</span>
-          <span class="proj-tag">Pydantic</span>
-          <span class="proj-tag">Docker</span>
-          <span class="proj-tag">Pytest</span>
-          <span class="proj-tag">Uvicorn</span>
-          <span class="proj-tag">Joblib</span>
+          <span class="proj-tag">SolidWorks</span>
+          <span class="proj-tag">FDM 3D Printing</span>
+          <span class="proj-tag">Laser Cutting</span>
+          <span class="proj-tag">Eagle PCB</span>
+          <span class="proj-tag">Arduino Mega</span>
+          <span class="proj-tag">C++</span>
+          <span class="proj-tag">Serial UART</span>
+          <span class="proj-tag">Inverse Kinematics</span>
+          <span class="proj-tag">Servo PWM</span>
         </div>
       </div>
 
@@ -252,7 +284,7 @@
         <div class="detail-label">Links</div>
         <div class="proj-links-row">
           <a href="https://github.com/Vuyne" target="_blank" class="proj-link">GitHub →</a>
-          <a href="iris-microservice/README.md" target="_blank" class="proj-link outline">Readme →</a>
+          <a href="#" class="proj-link outline">Demo Video →</a>
         </div>
       </div>
 
@@ -260,21 +292,21 @@
   </div>
 
   <div class="related">
-    <div class="related-label">More from Data & AI</div>
+    <div class="related-label">More from Arduino, CAD & Fabrication</div>
     <div class="related-grid">
-      <div class="related-card" onclick="location.href='project-EDA.html'">
-        <div class="related-num">001 — 2025</div>
-        <div class="related-title">Multi-Dataset EDA</div>
-        <div class="related-sub">Pandas · Plotly</div>
+      <div class="related-card" onclick="location.href='project-GeoCache.html'">
+        <div class="related-num">002 — 2025</div>
+        <div class="related-title">GeoCache Device</div>
+        <div class="related-sub">Arduino · GPS</div>
       </div>
-      <div class="related-card" onclick="location.href='project-NLP-IPA.html'">
-        <div class="related-num">003 — 2025–2026</div>
-        <div class="related-title">NLP IPA Research</div>
-        <div class="related-sub">Speech · Phonology</div>
+      <div class="related-card" onclick="location.href='project-SimonSense.html'">
+        <div class="related-num">003 — 2025</div>
+        <div class="related-title">Simon Sense</div>
+        <div class="related-sub">Arduino · Eagle PCB</div>
       </div>
-      <div class="related-card" onclick="location.href='gallery-dataai.html'" style="background:var(--ink);color:var(--paper)">
+      <div class="related-card" onclick="location.href='gallery-fabrication.html'" style="background:var(--ink);color:var(--paper)">
         <div class="related-num" style="color:#555">ALL</div>
-        <div class="related-title">View All Data & AI</div>
+        <div class="related-title">View All Fabrication</div>
         <div class="related-sub" style="color:#555">Gallery →</div>
       </div>
     </div>
@@ -282,8 +314,8 @@
 
   <footer class="page-footer">
     <span>© 2026 Vy Lo</span>
-    <span>PROJECT 002 — IRIS CLASSIFIER</span>
-    <span><a href="gallery-dataai.html" style="color:var(--muted)">← Back to Gallery</a></span>
+    <span>PROJECT 001 — STEWART PLATFORM</span>
+    <span><a href="gallery-fabrication.html" style="color:var(--muted)">← Back to Gallery</a></span>
   </footer>
 
   <script>
@@ -306,6 +338,5 @@
       });
     });
   </script>
-
 </body>
 </html>
