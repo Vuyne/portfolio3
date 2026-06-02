@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arduino, CAD & Fabrication — Vy Lo</title>
+  <title>Game & Simulation — Vy Lo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
@@ -18,15 +18,19 @@
       --border:   1.5px solid #1a1714;
       --thin:     1px solid #1a1714;
     }
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    html { scroll-behavior:smooth; }
-    body { background:var(--paper); color:var(--ink); font-family:'Space Mono',monospace; cursor:crosshair; }
-    a { color:inherit; text-decoration:none; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Space Mono', monospace; cursor: crosshair; }
+    a { color: inherit; text-decoration: none; }
 
     .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
     .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
 
-    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2.5rem; border-bottom:var(--border); position:sticky; top:0; background:var(--paper); z-index:100; }
+    nav {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 2.5rem; border-bottom:var(--border);
+      position:sticky; top:0; background:var(--paper); z-index:100;
+    }
     .nav-left { display:flex; align-items:center; gap:1.5rem; }
     .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; display:flex; align-items:center; gap:0.5rem; color:var(--muted); transition:color 0.2s; }
     .back-btn:hover { color:var(--ink); }
@@ -47,10 +51,10 @@
     .page-desc { font-family:'IM Fell English',serif; font-style:italic; font-size:14px; color:var(--muted); max-width:500px; position:relative; z-index:1; }
 
     .ticker { background:var(--ink); color:var(--paper); padding:8px 0; overflow:hidden; white-space:nowrap; }
-    .ticker-track { display:inline-block; animation:ticker 30s linear infinite; font-size:9px; letter-spacing:0.25em; }
+    .ticker-track { display:inline-block; animation:ticker 28s linear infinite; font-size:9px; letter-spacing:0.25em; }
     @keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
 
-    /* ── ASYMMETRIC GRID: Stewart hero left tall, 2 smaller right ── */
+    /* ── BENTO GRID layout — featured top left ── */
     .gallery-bento {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -60,16 +64,23 @@
       padding-bottom: 4rem;
     }
 
-    .proj-card { position:relative; overflow:hidden; border:var(--thin); margin:-0.5px; cursor:pointer; background:var(--paper-md); }
+    .proj-card {
+      position:relative; overflow:hidden; border:var(--thin);
+      margin:-0.5px; cursor:pointer; background:var(--paper-md);
+    }
     .proj-card.standard { aspect-ratio:4/3; }
-    .proj-card.tall {
-      grid-row: span 2;
+    /* No-Button Fighter spans full width as hero */
+    .proj-card.hero {
+      grid-column: span 3;
       aspect-ratio: unset;
-      min-height: 520px;
+      min-height: 260px;
     }
 
-    .proj-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:var(--paper-dk); transition:transform 0.5s ease; }
-    .proj-card.tall .proj-img-placeholder { background: #1a1714; }
+    .proj-img-placeholder {
+      width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+      background:var(--paper-dk); transition:transform 0.5s ease;
+    }
+    .proj-card.hero .proj-img-placeholder { background: #1a1714; }
     .placeholder-text { font-family:'Noto Serif JP',serif; font-size:40px; font-weight:900; color:var(--paper-md); user-select:none; }
 
     .proj-card:hover .proj-img-placeholder { transform:scale(1.04); }
@@ -81,17 +92,16 @@
       transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
       display:flex; flex-direction:column; gap:0.6rem;
     }
-    .proj-card.tall .proj-note { background:var(--ink); color:var(--paper); border-top-color:var(--accent); }
+    .proj-card.hero .proj-note { background:var(--ink); color:var(--paper); border-top-color:var(--accent); }
     .proj-card:hover .proj-note { transform:translateY(0); }
 
     .note-num  { font-size:8px; color:var(--muted); letter-spacing:0.2em; }
     .note-title { font-family:'Noto Serif JP',serif; font-size:16px; font-weight:700; line-height:1.2; }
     .note-desc  { font-family:'IM Fell English',serif; font-style:italic; font-size:12px; color:var(--muted); line-height:1.6; }
-    .proj-card.tall .note-title { color:var(--paper); }
-    .proj-card.tall .note-desc  { color:#888; }
+    .proj-card.hero .note-desc { color:#888; }
     .note-tags  { display:flex; gap:0.4rem; flex-wrap:wrap; }
     .note-tag   { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; border:1px solid var(--ink); padding:2px 7px; }
-    .proj-card.tall .note-tag { border-color:#444; color:#aaa; }
+    .proj-card.hero .note-tag { border-color:#444; color:#aaa; }
 
     .note-btn {
       display:inline-flex; align-items:center; gap:0.5rem; font-size:8px;
@@ -99,13 +109,22 @@
       color:var(--paper); padding:8px 14px; border:none; cursor:pointer;
       transition:background 0.2s; align-self:flex-start; margin-top:0.25rem;
     }
-    .proj-card.tall .note-btn { background:var(--accent); }
+    .proj-card.hero .note-btn { background:var(--accent); }
     .note-btn:hover { background:var(--accent); }
 
-    .role-badge { position:absolute; top:1rem; right:1rem; font-size:7px; letter-spacing:0.15em; text-transform:uppercase; padding:3px 8px; z-index:2; background:var(--paper); border:var(--thin); }
+    /* Role badge */
+    .role-badge {
+      position:absolute; top:1rem; right:1rem; font-size:7px; letter-spacing:0.15em;
+      text-transform:uppercase; padding:3px 8px; z-index:2;
+      background:var(--paper); border:var(--thin);
+    }
     .role-badge.solo { background:var(--accent); color:var(--paper); border-color:var(--accent); }
-    .proj-index { position:absolute; top:1rem; left:1rem; font-size:8px; letter-spacing:0.15em; background:var(--paper); border:var(--thin); padding:2px 8px; z-index:2; }
-    .proj-card.tall .proj-index { background:transparent; color:var(--paper); border-color:#444; }
+
+    .proj-index {
+      position:absolute; top:1rem; left:1rem; font-size:8px; letter-spacing:0.15em;
+      background:var(--paper); border:var(--thin); padding:2px 8px; z-index:2;
+    }
+    .proj-card.hero .proj-index { background:transparent; color:var(--paper); border-color:#444; }
 
     .page-footer { border-top:var(--border); padding:1rem 2.5rem; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em; }
   </style>
@@ -117,104 +136,110 @@
 
   <nav>
     <div class="nav-left">
-      <a href="index.html" class="back-btn">Back to Portfolio</a>
+      <a href="../../index.html" class="back-btn">Back to Portfolio</a>
       <div class="nav-divider"></div>
       <div class="nav-logo">V y L o</div>
     </div>
-    <div class="nav-meta">ARDUINO, CAD & FABRICATION &nbsp;/&nbsp; VOL. 04</div>
+    <div class="nav-meta">GAME & SIMULATION &nbsp;/&nbsp; VOL. 03</div>
   </nav>
 
   <div class="page-header">
     <div class="page-header-sidebar">
       <div>
-        <div class="num">CAT. 04</div>
+        <div class="num">CAT. 03</div>
         <div style="font-size:9px; color:var(--muted); letter-spacing:0.2em; line-height:2.4; margin-top:0.75rem">
-          CAD / SOLIDWORKS<br>3D PRINTING<br>LASER CUTTING<br>ARDUINO<br>PCB / EAGLE
+          GESTURE CONTROL<br>PHYSICS SIM<br>ENEMY AI<br>GAME SYSTEMS
         </div>
       </div>
-      <div class="sidebar-vert">製造とハードウェア</div>
+      <div class="sidebar-vert">ゲームとシミュレーション</div>
     </div>
     <div class="page-header-main">
-      <span class="header-bg" aria-hidden="true">造</span>
-      <div class="category-label">Category 04</div>
-      <h1 class="page-title">Arduino, CAD &<br><span class="accent">Fabrication.</span></h1>
+      <span class="header-bg" aria-hidden="true">遊</span>
+      <div class="category-label">Category 03</div>
+      <h1 class="page-title">Game &<br><span class="accent">Simulation.</span></h1>
       <p class="page-desc">
-        Physical-digital projects spanning SolidWorks CAD, 3D printing, laser cutting, custom PCB design and Arduino firmware — from motion platforms to interactive hardware games.
+        Interactive experiences built in Unity — from gesture-driven combat to physics-accurate drone racing and AI-powered escape games.
       </p>
     </div>
   </div>
 
   <div class="ticker">
     <span class="ticker-track">
-      ARDUINO &nbsp;◆&nbsp; SOLIDWORKS &nbsp;◆&nbsp; 3D PRINTING &nbsp;◆&nbsp; LASER CUTTING &nbsp;◆&nbsp; EAGLE PCB &nbsp;◆&nbsp; DIGITAL FABRICATION &nbsp;◆&nbsp; GPS &nbsp;◆&nbsp; 製造とハードウェア &nbsp;◆&nbsp;
-      ARDUINO &nbsp;◆&nbsp; SOLIDWORKS &nbsp;◆&nbsp; 3D PRINTING &nbsp;◆&nbsp; LASER CUTTING &nbsp;◆&nbsp; EAGLE PCB &nbsp;◆&nbsp; DIGITAL FABRICATION &nbsp;◆&nbsp; GPS &nbsp;◆&nbsp; 製造とハードウェア &nbsp;◆&nbsp;
+      GAME & SIMULATION &nbsp;◆&nbsp; UNITY &nbsp;◆&nbsp; C# &nbsp;◆&nbsp; GESTURE CONTROL &nbsp;◆&nbsp; PHYSICS &nbsp;◆&nbsp; ENEMY AI &nbsp;◆&nbsp; LEAP MOTION &nbsp;◆&nbsp; ゲームとシミュレーション &nbsp;◆&nbsp;
+      GAME & SIMULATION &nbsp;◆&nbsp; UNITY &nbsp;◆&nbsp; C# &nbsp;◆&nbsp; GESTURE CONTROL &nbsp;◆&nbsp; PHYSICS &nbsp;◆&nbsp; ENEMY AI &nbsp;◆&nbsp; LEAP MOTION &nbsp;◆&nbsp; ゲームとシミュレーション &nbsp;◆&nbsp;
     </span>
   </div>
 
   <div class="gallery-bento">
 
-    <!-- CARD 1 — Stewart Platform (TALL / HERO left) -->
-    <div class="proj-card tall" onclick="location.href='project-StewartPlatform.html'">
+    <!-- CARD 1 — No-Button Fighter (HERO / SOLO) -->
+    <div class="proj-card hero" onclick="location.href='../projects/project-NoButtonFighter.html'">
       <div class="proj-index">001</div>
-      <div class="role-badge solo">Solo</div>
+      <div class="role-badge solo">Solo Project</div>
       <div class="proj-img-placeholder">
-        <span class="placeholder-text" style="color:#2d2926; font-size:100px;">台</span>
+        <span class="placeholder-text" style="color:#2d2926; font-size:90px;">拳</span>
       </div>
       <div class="proj-note">
-        <div class="note-num">001 — 2025–2026</div>
-        <div class="note-title">Stewart<br>Platform</div>
-        <div class="note-desc">A 6-DOF motion platform designed entirely from scratch — SolidWorks CAD, 3D-printed & laser-cut structure, custom PCB in Eagle, and Arduino servo firmware. Built to physically respond to in-game simulation events.</div>
+        <div class="note-num">001 — 2026</div>
+        <div class="note-title" style="color:var(--paper);">No-Button Fighter</div>
+        <div class="note-desc">A gesture-controlled 3D fighting game built entirely solo in Unity — real-time hand tracking via Ultraleap maps palm velocity to punches, dodges, and fireballs. Zero buttons. Zero keyboard. Pure hands.</div>
         <div class="note-tags">
+          <span class="note-tag">Unity</span>
+          <span class="note-tag">C#</span>
+          <span class="note-tag">Leap Motion SDK</span>
           <span class="note-tag">SolidWorks</span>
           <span class="note-tag">3D Printing</span>
-          <span class="note-tag">Laser Cutting</span>
-          <span class="note-tag">Eagle PCB</span>
-          <span class="note-tag">Arduino</span>
           <span class="note-tag">Serial Comm.</span>
         </div>
-        <a href="project-StewartPlatform.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-NoButtonFighter.html" class="note-btn">View Project →</a>
       </div>
     </div>
 
-    <!-- CARD 2 — GeoCache (top right) -->
-    <div class="proj-card standard" onclick="location.href='project-GeoCache.html'">
+    <!-- CARD 2 — Drone Olympic Simulation -->
+    <div class="proj-card standard" onclick="location.href='../projects/project-DroneOlympic.html'">
       <div class="proj-index">002</div>
-      <div class="role-badge solo">Solo</div>
+      <div class="role-badge">Main Coder · 2-Person</div>
       <div class="proj-img-placeholder">
-        <span class="placeholder-text">位</span>
+        <span class="placeholder-text">機</span>
       </div>
       <div class="proj-note">
         <div class="note-num">002 — 2025</div>
-        <div class="note-title">GeoCache<br>Device</div>
-        <div class="note-desc">A handheld GPS treasure-hunt device — Arduino + GPS module + LCD display guiding users to hidden cache coordinates in real time.</div>
+        <div class="note-title">Drone Olympic<br>Simulation</div>
+        <div class="note-desc">Physics-accurate drone racing simulation inspired by Olympic-style obstacle courses — flight dynamics, lap timing, and course generation.</div>
         <div class="note-tags">
-          <span class="note-tag">Arduino</span>
-          <span class="note-tag">GPS Module</span>
-          <span class="note-tag">LCD</span>
-          <span class="note-tag">C++</span>
+          <span class="note-tag">Unity</span>
+          <span class="note-tag">C#</span>
+          <span class="note-tag">Physics</span>
         </div>
-        <a href="project-GeoCache.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-DroneOlympic.html" class="note-btn">View Project →</a>
       </div>
     </div>
 
-    <!-- CARD 3 — Simon Sense (bottom right) -->
-    <div class="proj-card standard" onclick="location.href='project-SimonSense.html'">
+    <!-- CARD 3 — Escape Maze Game -->
+    <div class="proj-card standard" onclick="location.href='../projects/project-EscapeMaze.html'">
       <div class="proj-index">003</div>
-      <div class="role-badge solo">Solo</div>
+      <div class="role-badge">AI + Controls · 4-Person</div>
       <div class="proj-img-placeholder">
-        <span class="placeholder-text">光</span>
+        <span class="placeholder-text">迷</span>
       </div>
       <div class="proj-note">
         <div class="note-num">003 — 2025</div>
-        <div class="note-title">Simon<br>Sense</div>
-        <div class="note-desc">A hardware Simon Says game — four LEDs, four buttons, a piezo buzzer, and progressive difficulty logic all running on bare Arduino with custom PCB layout.</div>
+        <div class="note-title">Escape Maze<br>Game</div>
+        <div class="note-desc">3D maze escape game built with a team of four — led enemy AI behaviour, character controller, and UI components including audio and settings systems.</div>
         <div class="note-tags">
-          <span class="note-tag">Arduino</span>
-          <span class="note-tag">Eagle PCB</span>
-          <span class="note-tag">C++</span>
-          <span class="note-tag">LEDs</span>
+          <span class="note-tag">Unity</span>
+          <span class="note-tag">C#</span>
+          <span class="note-tag">NavMesh AI</span>
+          <span class="note-tag">UI</span>
         </div>
-        <a href="project-SimonSense.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-EscapeMaze.html" class="note-btn">View Project →</a>
+      </div>
+    </div>
+
+    <!-- CARD 4 — placeholder / add more -->
+    <div class="proj-card standard" style="background:var(--paper); border-style:dashed; opacity:0.4; cursor:default;">
+      <div class="proj-img-placeholder" style="background:transparent;">
+        <span style="font-size:11px; letter-spacing:0.2em; color:var(--muted)">MORE SOON</span>
       </div>
     </div>
 
@@ -222,8 +247,8 @@
 
   <footer class="page-footer">
     <span>© 2026 Vy Lo</span>
-    <span>ARDUINO, CAD & FABRICATION — 製造とハードウェア</span>
-    <span><a href="index.html" style="color:var(--muted)">← Back to Portfolio</a></span>
+    <span>GAME & SIMULATION — ゲームとシミュレーション</span>
+    <span><a href="../../index.html" style="color:var(--muted)">← Back to Portfolio</a></span>
   </footer>
 
   <script>
@@ -246,5 +271,6 @@
       });
     });
   </script>
+
 </body>
 </html>

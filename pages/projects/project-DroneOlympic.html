@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multi-Dataset EDA — Vy Lo</title>
+  <title>Drone Olympic Simulation — Vy Lo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
@@ -18,19 +18,15 @@
       --border:   1.5px solid #1a1714;
       --thin:     1px solid #1a1714;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--paper); color: var(--ink); font-family: 'Space Mono', monospace; cursor: crosshair; }
-    a { color: inherit; text-decoration: none; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--paper); color:var(--ink); font-family:'Space Mono',monospace; cursor:crosshair; }
+    a { color:inherit; text-decoration:none; }
 
     .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
     .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
 
-    nav {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2.5rem; border-bottom: var(--border);
-      position: sticky; top: 0; background: var(--paper); z-index: 100;
-    }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2.5rem; border-bottom:var(--border); position:sticky; top:0; background:var(--paper); z-index:100; }
     .nav-left { display:flex; align-items:center; gap:1.5rem; }
     .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
     .back-btn::before { content:'←'; }
@@ -39,43 +35,43 @@
     .nav-logo { font-family:'Noto Serif JP',serif; font-weight:700; font-size:12px; letter-spacing:0.35em; }
     .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; }
 
-    .proj-header {
-      border-bottom: var(--border); padding: 2rem 2.5rem;
-      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
-    }
+    .proj-header { border-bottom:var(--border); padding:2rem 2.5rem; display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
     .proj-header-left { display:flex; flex-direction:column; gap:0.5rem; }
     .proj-num { font-size:9px; color:var(--muted); border:1px solid var(--muted); padding:2px 6px; display:inline-block; }
+
+    /* Role strip under number */
+    .proj-role { display:inline-flex; gap:0.5rem; align-items:center; margin-top:0.25rem; }
+    .role-pill { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; padding:3px 9px; border:var(--thin); }
+    .role-pill.highlight { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
     .proj-title { font-family:'Noto Serif JP',serif; font-size:clamp(28px,4vw,56px); font-weight:900; line-height:0.95; }
     .proj-title .accent { color:var(--accent); }
     .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:40%; }
     .note-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
 
-    .proj-body {
-      display: grid; grid-template-columns: 1fr 420px;
-      min-height: calc(100vh - 120px); border-bottom: var(--border);
-    }
-
-    .proj-images { border-right: var(--border); display:flex; flex-direction:column; }
+    .proj-body { display:grid; grid-template-columns:1fr 420px; min-height:calc(100vh - 120px); border-bottom:var(--border); }
+    .proj-images { border-right:var(--border); display:flex; flex-direction:column; }
     .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
-    .img-placeholder {
-      width:100%; height:100%; min-height:300px; background:var(--paper-dk);
-      display:flex; align-items:center; justify-content:center;
-    }
+    .img-placeholder { width:100%; height:100%; min-height:300px; background:var(--paper-dk); display:flex; align-items:center; justify-content:center; }
     .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
-
     .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
     .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
     .img-thumb:last-child { border-right:none; }
     .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
 
-    .proj-detail {
-      padding: 2.5rem 2rem; display:flex; flex-direction:column; gap:2rem;
-      overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px);
-    }
+    .proj-detail { padding:2.5rem 2rem; display:flex; flex-direction:column; gap:2rem; overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px); }
     .detail-block { padding-bottom:2rem; border-bottom:var(--thin); }
     .detail-block:last-child { border-bottom:none; padding-bottom:0; }
     .detail-label { font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
     .detail-body { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; }
+
+    /* Contribution callout */
+    .contrib-box { border:var(--border); padding:1rem 1.25rem; display:flex; flex-direction:column; gap:0.5rem; }
+    .contrib-label { font-size:7px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); }
+    .contrib-row { display:flex; gap:0.5rem; align-items:center; }
+    .contrib-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+    .contrib-text { font-size:10px; line-height:1.6; letter-spacing:0.03em; }
+    .contrib-other { font-size:10px; color:var(--muted); letter-spacing:0.03em; padding-left:1.1rem; }
 
     .timeline { display:flex; flex-direction:column; }
     .timeline-item { display:grid; grid-template-columns:60px 1fr; gap:1rem; padding:1rem 0; border-bottom:var(--thin); }
@@ -89,12 +85,7 @@
     .outcome-text { font-family:'IM Fell English',serif; font-style:italic; font-size:14px; line-height:1.7; }
 
     .proj-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
-
-    .proj-link {
-      display:inline-flex; align-items:center; gap:0.5rem; font-size:8px;
-      letter-spacing:0.2em; text-transform:uppercase; background:var(--ink);
-      color:var(--paper); padding:10px 18px; transition:background 0.2s;
-    }
+    .proj-link { display:inline-flex; align-items:center; gap:0.5rem; font-size:8px; letter-spacing:0.2em; text-transform:uppercase; background:var(--ink); color:var(--paper); padding:10px 18px; transition:background 0.2s; }
     .proj-link:hover { background:var(--accent); }
     .proj-link.outline { background:transparent; color:var(--ink); border:var(--thin); }
     .proj-link.outline:hover { background:var(--paper-dk); }
@@ -109,10 +100,7 @@
     .related-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:700; margin-bottom:0.3rem; }
     .related-sub { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
 
-    .page-footer {
-      border-top:var(--border); padding:1rem 2.5rem; display:flex;
-      justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em;
-    }
+    .page-footer { border-top:var(--border); padding:1rem 2.5rem; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em; }
   </style>
 </head>
 <body>
@@ -122,25 +110,28 @@
 
   <nav>
     <div class="nav-left">
-      <a href="gallery-dataai.html" class="back-btn">Back to Data & AI</a>
+      <a href="../galleries/gallery-games&simulation.html" class="back-btn">Back to Game & Simulation</a>
       <div class="nav-divider"></div>
       <div class="nav-logo">V y L o</div>
     </div>
-    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 001</div>
+    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 002</div>
   </nav>
 
   <div class="proj-header">
     <div class="proj-header-left">
-      <div class="proj-num">001 — 2025</div>
-      <h1 class="proj-title">Multi-Dataset<br><span class="accent">EDA</span></h1>
+      <div class="proj-num">002 — 2025</div>
+      <div class="proj-role">
+        <span class="role-pill highlight">Main Coder</span>
+        <span class="role-pill">2-Person Team</span>
+      </div>
+      <h1 class="proj-title">Drone Olympic<br><span class="accent">Simulation</span></h1>
     </div>
     <div class="proj-header-right">
-      <span class="note-tag">Python</span>
-      <span class="note-tag">Pandas</span>
-      <span class="note-tag">Matplotlib</span>
-      <span class="note-tag">Plotly Express</span>
-      <span class="note-tag">Seaborn</span>
-      <span class="note-tag">Jupyter</span>
+      <span class="note-tag">Unity</span>
+      <span class="note-tag">C#</span>
+      <span class="note-tag">Physics</span>
+      <span class="note-tag">Rigidbody</span>
+      <span class="note-tag">PID Control</span>
     </div>
   </div>
 
@@ -148,25 +139,25 @@
 
     <div class="proj-images">
       <div class="img-main">
-        <div class="img-placeholder"><span>探</span></div>
+        <div class="img-placeholder"><span>機</span></div>
       </div>
       <div class="img-thumbs">
         <div class="img-thumb">
-          <span class="img-thumb-label">DISTRIBUTIONS</span>
+          <span class="img-thumb-label">FLIGHT</span>
           <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">統</span>
+            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">飛</span>
           </div>
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">CORRELATIONS</span>
+          <span class="img-thumb-label">COURSE</span>
           <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">関</span>
+            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">道</span>
           </div>
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">INSIGHTS</span>
+          <span class="img-thumb-label">HUD</span>
           <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">知</span>
+            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">計</span>
           </div>
         </div>
       </div>
@@ -177,11 +168,35 @@
       <div class="detail-block">
         <div class="detail-label">Overview</div>
         <p class="detail-body">
-          A comprehensive exploratory data analysis project spanning multiple real-world datasets.
-          Using the full Python data stack — Pandas for wrangling, Matplotlib for static plots,
-          Plotly Express for interactive visualisations — the work uncovers hidden patterns,
-          outliers, distributions, and correlations across varied data domains.
+          A physics-accurate drone racing simulation set within Olympic-style obstacle courses,
+          built in Unity with a two-person team. The project focuses on realistic quadrotor
+          flight dynamics — thrust, torque, and drag — mapped to intuitive player controls,
+          with timed lap mechanics and structured course checkpoints.
         </p>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">My Contribution</div>
+        <div class="contrib-box">
+          <div class="contrib-label">Vy Lo — Main Coder</div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Drone flight physics — Rigidbody force/torque model, rotor thrust simulation, drag coefficients</div>
+          </div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Player input system — throttle, pitch, roll, yaw mapped to keyboard/controller</div>
+          </div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Checkpoint & lap timer system — trigger zones, ghost replay data, best-lap tracking</div>
+          </div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">HUD elements — speedometer, altitude, lap time, checkpoint counter</div>
+          </div>
+          <div class="contrib-other">Partner: course/environment design & asset integration</div>
+        </div>
       </div>
 
       <div class="detail-block">
@@ -190,29 +205,29 @@
           <div class="timeline-item">
             <div class="timeline-step">STEP 01</div>
             <div class="timeline-content">
-              <div class="timeline-title">Data Ingestion & Cleaning</div>
-              <div class="timeline-desc">Loaded multiple datasets, handled missing values, removed duplicates, normalised data types, and documented each dataset's provenance and structure.</div>
+              <div class="timeline-title">Flight Physics Model</div>
+              <div class="timeline-desc">Implemented quadrotor dynamics using Unity Rigidbody — four virtual rotors apply upward thrust proportional to throttle input, with torque for yaw rotation and asymmetric thrust for pitch and roll.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 02</div>
             <div class="timeline-content">
-              <div class="timeline-title">Univariate Analysis</div>
-              <div class="timeline-desc">Examined individual feature distributions using histograms, KDE plots, and box plots. Identified skewness, outliers, and key statistical summaries per column.</div>
+              <div class="timeline-title">Input & Control Tuning</div>
+              <div class="timeline-desc">Mapped player inputs to rotor differentials. Iterated on sensitivity curves and added drag damping to prevent oscillation — balancing realism with playability.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 03</div>
             <div class="timeline-content">
-              <div class="timeline-title">Multivariate Exploration</div>
-              <div class="timeline-desc">Built correlation heatmaps, pair plots, and scatter matrices. Used Plotly Express for interactive drill-down views to surface relationships between features.</div>
+              <div class="timeline-title">Checkpoint & Race Logic</div>
+              <div class="timeline-desc">Built an ordered checkpoint system using trigger colliders. Implemented lap timing, invalid-lap detection for missed gates, and persistent best-lap storage.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 04</div>
             <div class="timeline-content">
-              <div class="timeline-title">Insight Communication</div>
-              <div class="timeline-desc">Documented findings in structured Jupyter notebooks with annotated charts, written observations, and reproducible code blocks for each dataset.</div>
+              <div class="timeline-title">HUD & Feedback Systems</div>
+              <div class="timeline-desc">Designed in-game HUD displaying real-time speed, altitude, throttle level, and lap splits. Added audio cues for checkpoint passes and course completion.</div>
             </div>
           </div>
         </div>
@@ -222,9 +237,9 @@
         <div class="outcome-box">
           <div class="outcome-label">Outcome</div>
           <div class="outcome-text">
-            A reproducible EDA pipeline adaptable to any tabular dataset — demonstrating
-            fluency across the full analysis workflow from raw ingestion to actionable insight,
-            with both static and interactive visualisation outputs.
+            A fully playable drone racing simulation with physically grounded flight feel —
+            demonstrating deep integration between physics simulation, real-time HUD systems,
+            and structured race logic within a collaborative production pipeline.
           </div>
         </div>
       </div>
@@ -232,13 +247,12 @@
       <div class="detail-block">
         <div class="detail-label">Tech Stack</div>
         <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">Pandas</span>
-          <span class="proj-tag">Matplotlib</span>
-          <span class="proj-tag">Plotly Express</span>
-          <span class="proj-tag">Seaborn</span>
-          <span class="proj-tag">Jupyter Notebook</span>
-          <span class="proj-tag">NumPy</span>
+          <span class="proj-tag">Unity 6</span>
+          <span class="proj-tag">C#</span>
+          <span class="proj-tag">Rigidbody Physics</span>
+          <span class="proj-tag">Unity Input System</span>
+          <span class="proj-tag">UI Toolkit</span>
+          <span class="proj-tag">AudioSource</span>
         </div>
       </div>
 
@@ -246,7 +260,7 @@
         <div class="detail-label">Links</div>
         <div class="proj-links-row">
           <a href="https://github.com/Vuyne" target="_blank" class="proj-link">GitHub →</a>
-          <a href="#" class="proj-link outline">Notebook →</a>
+          <a href="#" class="proj-link outline">Demo Video →</a>
         </div>
       </div>
 
@@ -254,21 +268,21 @@
   </div>
 
   <div class="related">
-    <div class="related-label">More from Data & AI</div>
+    <div class="related-label">More from Game & Simulation</div>
     <div class="related-grid">
-      <div class="related-card" onclick="location.href='project-IRIS.html'">
-        <div class="related-num">002 — 2025</div>
-        <div class="related-title">Iris Classifier</div>
-        <div class="related-sub">Python · Scikit-learn</div>
+      <div class="related-card" onclick="location.href='project-NoButtonFighter.html'">
+        <div class="related-num">001 — 2026</div>
+        <div class="related-title">No-Button Fighter</div>
+        <div class="related-sub">Unity · Leap Motion</div>
       </div>
-      <div class="related-card" onclick="location.href='project-NLP-IPA.html'">
-        <div class="related-num">003 — 2025–2026</div>
-        <div class="related-title">NLP IPA Research</div>
-        <div class="related-sub">Speech · Phonology</div>
+      <div class="related-card" onclick="location.href='project-EscapeMaze.html'">
+        <div class="related-num">003 — 2025</div>
+        <div class="related-title">Escape Maze Game</div>
+        <div class="related-sub">Unity · Enemy AI</div>
       </div>
-      <div class="related-card" onclick="location.href='gallery-dataai.html'" style="background:var(--ink);color:var(--paper)">
+      <div class="related-card" onclick="location.href='../galleries/gallery-games&simulation.html'" style="background:var(--ink);color:var(--paper)">
         <div class="related-num" style="color:#555">ALL</div>
-        <div class="related-title">View All Data & AI</div>
+        <div class="related-title">View All Games</div>
         <div class="related-sub" style="color:#555">Gallery →</div>
       </div>
     </div>
@@ -276,8 +290,8 @@
 
   <footer class="page-footer">
     <span>© 2026 Vy Lo</span>
-    <span>PROJECT 001 — MULTI-DATASET EDA</span>
-    <span><a href="gallery-dataai.html" style="color:var(--muted)">← Back to Gallery</a></span>
+    <span>PROJECT 002 — DRONE OLYMPIC SIMULATION</span>
+    <span><a href="../galleries/gallery-games&simulation.html" style="color:var(--muted)">← Back to Gallery</a></span>
   </footer>
 
   <script>
