@@ -38,12 +38,9 @@
     .proj-header { border-bottom:var(--border); padding:2rem 2.5rem; display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
     .proj-header-left { display:flex; flex-direction:column; gap:0.5rem; }
     .proj-num { font-size:9px; color:var(--muted); border:1px solid var(--muted); padding:2px 6px; display:inline-block; }
-
-    /* Role strip under number */
     .proj-role { display:inline-flex; gap:0.5rem; align-items:center; margin-top:0.25rem; }
     .role-pill { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; padding:3px 9px; border:var(--thin); }
     .role-pill.highlight { background:var(--ink); color:var(--paper); border-color:var(--ink); }
-
     .proj-title { font-family:'Noto Serif JP',serif; font-size:clamp(28px,4vw,56px); font-weight:900; line-height:0.95; }
     .proj-title .accent { color:var(--accent); }
     .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:40%; }
@@ -51,12 +48,33 @@
 
     .proj-body { display:grid; grid-template-columns:1fr 420px; min-height:calc(100vh - 120px); border-bottom:var(--border); }
     .proj-images { border-right:var(--border); display:flex; flex-direction:column; }
-    .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
-    .img-placeholder { width:100%; height:100%; min-height:300px; background:var(--paper-dk); display:flex; align-items:center; justify-content:center; }
-    .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
+
+    /* ── IMAGE SLOTS ── */
+    .img-main {
+      border-bottom:var(--thin); overflow:hidden; flex:2;
+      min-height:400px; position:relative;
+      background:var(--paper-dk);          /* fallback bg if img missing */
+    }
+    .img-main img {
+      width:100%; height:100%;
+      object-fit:cover; display:block;
+      transition:transform 0.4s ease;
+    }
+    .img-main:hover img { transform:scale(1.03); }
+
     .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
-    .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
+    .img-thumb {
+      border-right:var(--thin); overflow:hidden;
+      aspect-ratio:4/3; position:relative; cursor:pointer;
+      background:var(--paper-dk);
+    }
     .img-thumb:last-child { border-right:none; }
+    .img-thumb img {
+      width:100%; height:100%;
+      object-fit:cover; display:block;
+      transition:transform 0.4s ease;
+    }
+    .img-thumb:hover img { transform:scale(1.04); }
     .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
 
     .proj-detail { padding:2.5rem 2rem; display:flex; flex-direction:column; gap:2rem; overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px); }
@@ -65,11 +83,10 @@
     .detail-label { font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
     .detail-body { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; }
 
-    /* Contribution callout */
     .contrib-box { border:var(--border); padding:1rem 1.25rem; display:flex; flex-direction:column; gap:0.5rem; }
     .contrib-label { font-size:7px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); }
-    .contrib-row { display:flex; gap:0.5rem; align-items:center; }
-    .contrib-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+    .contrib-row { display:flex; gap:0.5rem; align-items:flex-start; }
+    .contrib-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:4px; }
     .contrib-text { font-size:10px; line-height:1.6; letter-spacing:0.03em; }
     .contrib-other { font-size:10px; color:var(--muted); letter-spacing:0.03em; padding-left:1.1rem; }
 
@@ -130,8 +147,8 @@
       <span class="note-tag">Unity</span>
       <span class="note-tag">C#</span>
       <span class="note-tag">Physics</span>
-      <span class="note-tag">Rigidbody</span>
-      <span class="note-tag">PID Control</span>
+      <span class="note-tag">Camera System</span>
+      <span class="note-tag">Media Capture</span>
     </div>
   </div>
 
@@ -139,26 +156,20 @@
 
     <div class="proj-images">
       <div class="img-main">
-        <div class="img-placeholder"><span>機</span></div>
+        <img src="../../images/Drone/Drone-1.png" alt="Drone Olympic Simulation">
       </div>
       <div class="img-thumbs">
         <div class="img-thumb">
           <span class="img-thumb-label">FLIGHT</span>
-          <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">飛</span>
-          </div>
+          <img src="../../images/Drone/Drone-2.png" alt="Flight">
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">COURSE</span>
-          <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">道</span>
-          </div>
+          <span class="img-thumb-label">CAMERA</span>
+          <img src="../../images/Drone/Drone-3.png" alt="Camera modes">
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">HUD</span>
-          <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">計</span>
-          </div>
+          <span class="img-thumb-label">CAPTURE</span>
+          <img src="../../images/Drone/Drone-4.png" alt="Media capture">
         </div>
       </div>
     </div>
@@ -168,10 +179,9 @@
       <div class="detail-block">
         <div class="detail-label">Overview</div>
         <p class="detail-body">
-          A physics-accurate drone racing simulation set within Olympic-style obstacle courses,
-          built in Unity with a two-person team. The project focuses on realistic quadrotor
-          flight dynamics — thrust, torque, and drag — mapped to intuitive player controls,
-          with timed lap mechanics and structured course checkpoints.
+          A drone-based simulation focused on cinematic camera experience rather than competitive racing.
+          The project emphasizes capturing high-quality footage using multiple in-game camera systems,
+          supporting both exploration and structured scene recording within a controlled environment.
         </p>
       </div>
 
@@ -181,21 +191,21 @@
           <div class="contrib-label">Vy Lo — Main Coder</div>
           <div class="contrib-row">
             <div class="contrib-dot"></div>
-            <div class="contrib-text">Drone flight physics — Rigidbody force/torque model, rotor thrust simulation, drag coefficients</div>
+            <div class="contrib-text">Drone movement system — Rigidbody-based flight control with thrust, torque, drag, and stability tuning</div>
           </div>
           <div class="contrib-row">
             <div class="contrib-dot"></div>
-            <div class="contrib-text">Player input system — throttle, pitch, roll, yaw mapped to keyboard/controller</div>
+            <div class="contrib-text">Camera system — multiple cinematic modes (follow, orbit, freecam, cinematic lock)</div>
           </div>
           <div class="contrib-row">
             <div class="contrib-dot"></div>
-            <div class="contrib-text">Checkpoint & lap timer system — trigger zones, ghost replay data, best-lap tracking</div>
+            <div class="contrib-text">Media capture — photo and video recording displayed on a large in-game screen UI</div>
           </div>
           <div class="contrib-row">
             <div class="contrib-dot"></div>
-            <div class="contrib-text">HUD elements — speedometer, altitude, lap time, checkpoint counter</div>
+            <div class="contrib-text">Interaction systems — crash vibration, battery drain, and return-to-charging loop</div>
           </div>
-          <div class="contrib-other">Partner: course/environment design & asset integration</div>
+          <div class="contrib-other">Partner: environment design & scene composition</div>
         </div>
       </div>
 
@@ -205,29 +215,29 @@
           <div class="timeline-item">
             <div class="timeline-step">STEP 01</div>
             <div class="timeline-content">
-              <div class="timeline-title">Flight Physics Model</div>
-              <div class="timeline-desc">Implemented quadrotor dynamics using Unity Rigidbody — four virtual rotors apply upward thrust proportional to throttle input, with torque for yaw rotation and asymmetric thrust for pitch and roll.</div>
+              <div class="timeline-title">Flight & Movement System</div>
+              <div class="timeline-desc">Built Rigidbody-based drone movement with tuned thrust, torque, and drag for stable cinematic control. Iterated sensitivity curves for smooth framing at low speeds.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 02</div>
             <div class="timeline-content">
-              <div class="timeline-title">Input & Control Tuning</div>
-              <div class="timeline-desc">Mapped player inputs to rotor differentials. Iterated on sensitivity curves and added drag damping to prevent oscillation — balancing realism with playability.</div>
+              <div class="timeline-title">Camera Modes System</div>
+              <div class="timeline-desc">Implemented multiple cinematic camera modes — follow cam, orbit, freecam, and cinematic lock — switchable at runtime for flexible recording setups.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 03</div>
             <div class="timeline-content">
-              <div class="timeline-title">Checkpoint & Race Logic</div>
-              <div class="timeline-desc">Built an ordered checkpoint system using trigger colliders. Implemented lap timing, invalid-lap detection for missed gates, and persistent best-lap storage.</div>
+              <div class="timeline-title">Photo & Video Capture</div>
+              <div class="timeline-desc">Built in-game capture system outputting photo and video to a large screen UI, simulating a real drone media workflow within the game world.</div>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-step">STEP 04</div>
             <div class="timeline-content">
-              <div class="timeline-title">HUD & Feedback Systems</div>
-              <div class="timeline-desc">Designed in-game HUD displaying real-time speed, altitude, throttle level, and lap splits. Added audio cues for checkpoint passes and course completion.</div>
+              <div class="timeline-title">Battery & Interaction Loop</div>
+              <div class="timeline-desc">Added crash vibration feedback, progressive battery consumption, and a charging station return mechanic to create a complete gameplay loop.</div>
             </div>
           </div>
         </div>
@@ -237,9 +247,9 @@
         <div class="outcome-box">
           <div class="outcome-label">Outcome</div>
           <div class="outcome-text">
-            A fully playable drone racing simulation with physically grounded flight feel —
-            demonstrating deep integration between physics simulation, real-time HUD systems,
-            and structured race logic within a collaborative production pipeline.
+            A cinematic drone simulation centered on camera-driven storytelling —
+            enabling players to capture dynamic photos and videos through flexible camera systems
+            while managing environmental interaction and energy constraints.
           </div>
         </div>
       </div>
@@ -247,10 +257,10 @@
       <div class="detail-block">
         <div class="detail-label">Tech Stack</div>
         <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
-          <span class="proj-tag">Unity 6</span>
+          <span class="proj-tag">Unity</span>
           <span class="proj-tag">C#</span>
           <span class="proj-tag">Rigidbody Physics</span>
-          <span class="proj-tag">Unity Input System</span>
+          <span class="proj-tag">Camera System</span>
           <span class="proj-tag">UI Toolkit</span>
           <span class="proj-tag">AudioSource</span>
         </div>
@@ -259,8 +269,8 @@
       <div class="detail-block">
         <div class="detail-label">Links</div>
         <div class="proj-links-row">
-          <a href="https://github.com/Vuyne" target="_blank" class="proj-link">GitHub →</a>
-          <a href="#" class="proj-link outline">Demo Video →</a>
+          <a href="https://github.com/Vuyne/DroneSimulation" target="_blank" class="proj-link">GitHub →</a>
+          <a href="https://youtu.be/8y-zs-PKdqE" target="_blank" class="proj-link outline">Demo Video →</a>
         </div>
       </div>
 
@@ -277,8 +287,8 @@
       </div>
       <div class="related-card" onclick="location.href='project-EscapeMaze.html'">
         <div class="related-num">003 — 2025</div>
-        <div class="related-title">Escape Maze Game</div>
-        <div class="related-sub">Unity · Enemy AI</div>
+        <div class="related-title">Spider Lilies</div>
+        <div class="related-sub">Unity · Survival Horror</div>
       </div>
       <div class="related-card" onclick="location.href='../galleries/gallery-games&simulation.html'" style="background:var(--ink);color:var(--paper)">
         <div class="related-num" style="color:#555">ALL</div>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLP IPA Research — Vy Lo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:      #1a1714;
+      --paper:    #f0ebe0;
+      --paper-md: #e8e0d0;
+      --paper-dk: #ddd4c0;
+      --accent:   #c4392b;
+      --muted:    #8a7f72;
+      --border:   1.5px solid #1a1714;
+      --thin:     1px solid #1a1714;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Space Mono', monospace; cursor: crosshair; }
+    a { color: inherit; text-decoration: none; }
+
+    .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem; border-bottom: var(--border);
+      position: sticky; top: 0; background: var(--paper); z-index: 100;
+    }
+    .nav-left { display:flex; align-items:center; gap:1.5rem; }
+    .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
+    .back-btn::before { content:'←'; }
+    .back-btn:hover { color:var(--ink); }
+    .nav-divider { width:1px; height:16px; background:var(--muted); opacity:0.4; }
+    .nav-logo { font-family:'Noto Serif JP',serif; font-weight:700; font-size:12px; letter-spacing:0.35em; }
+    .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; }
+
+    .proj-header {
+      border-bottom: var(--border); padding: 2rem 2.5rem;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+    }
+    .proj-header-left { display:flex; flex-direction:column; gap:0.5rem; }
+    .proj-num { font-size:9px; color:var(--muted); border:1px solid var(--muted); padding:2px 6px; display:inline-block; }
+    .proj-title { font-family:'Noto Serif JP',serif; font-size:clamp(28px,4vw,56px); font-weight:900; line-height:0.95; }
+    .proj-title .accent { color:var(--accent); }
+    .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:45%; }
+    .note-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
+
+    .proj-body {
+      display: grid; grid-template-columns: 1fr 420px;
+      min-height: calc(100vh - 120px); border-bottom: var(--border);
+    }
+
+    .proj-images { border-right: var(--border); display:flex; flex-direction:column; }
+    .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
+    .img-placeholder {
+      width:100%; height:100%; min-height:300px; background:var(--paper-dk);
+      display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem;
+    }
+    .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
+
+    /* Architecture diagram */
+    .arch-diagram {
+      width:100%; height:100%; min-height:300px;
+      background:var(--ink); display:flex; align-items:center; justify-content:center;
+      padding: 2rem; flex-direction:column; gap:0;
+    }
+    .arch-row { display:flex; align-items:center; justify-content:center; width:100%; }
+    .arch-box {
+      font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.1em;
+      border:1px solid rgba(255,255,255,0.3); padding:8px 16px;
+      color:#f0ebe0; text-align:center; white-space:nowrap;
+    }
+    .arch-box.highlight { border-color:var(--accent); color:var(--accent); }
+    .arch-box.main { border-color:rgba(255,255,255,0.6); }
+    .arch-arrow { color:rgba(255,255,255,0.4); font-size:12px; margin:4px 0; text-align:center; width:100%; }
+    .arch-arrow.red { color:var(--accent); }
+    .arch-label { font-size:7px; letter-spacing:0.2em; color:rgba(255,255,255,0.3); margin-top:4px; }
+
+    .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
+    .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
+    .img-thumb:last-child { border-right:none; }
+    .img-thumb-inner {
+      width:100%; height:100%; background:var(--paper-dk);
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      gap:0.5rem; padding:1rem;
+    }
+    .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
+    .thumb-stat { font-family:'Noto Serif JP',serif; font-size:22px; font-weight:900; color:var(--ink); }
+    .thumb-sub { font-size:7px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; text-align:center; }
+
+    .proj-detail {
+      padding: 2.5rem 2rem; display:flex; flex-direction:column; gap:2rem;
+      overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px);
+    }
+    .detail-block { padding-bottom:2rem; border-bottom:var(--thin); }
+    .detail-block:last-child { border-bottom:none; padding-bottom:0; }
+    .detail-label { font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
+    .detail-body { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; }
+
+    .timeline { display:flex; flex-direction:column; }
+    .timeline-item { display:grid; grid-template-columns:60px 1fr; gap:1rem; padding:1rem 0; border-bottom:var(--thin); }
+    .timeline-item:last-child { border-bottom:none; }
+    .timeline-step { font-size:8px; letter-spacing:0.15em; color:var(--muted); padding-top:2px; }
+    .timeline-title { font-family:'Noto Serif JP',serif; font-size:13px; font-weight:700; margin-bottom:0.3rem; }
+    .timeline-desc { font-size:10px; color:var(--muted); line-height:1.7; letter-spacing:0.03em; }
+
+    .loss-chart { margin-top:0.75rem; }
+    .loss-row { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.4rem; }
+    .loss-label { font-size:8px; letter-spacing:0.1em; color:var(--muted); width:55px; flex-shrink:0; }
+    .loss-bar-wrap { flex:1; height:6px; background:var(--paper-dk); }
+    .loss-bar { height:100%; background:var(--ink); transition:width 1s ease; }
+    .loss-bar.good { background:var(--accent); }
+    .loss-val { font-size:8px; letter-spacing:0.1em; width:40px; text-align:right; }
+
+    .outcome-box { background:var(--ink); color:var(--paper); padding:1.25rem; }
+    .outcome-label { font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:#888; margin-bottom:0.5rem; }
+    .outcome-text { font-family:'IM Fell English',serif; font-style:italic; font-size:14px; line-height:1.7; }
+
+    .proj-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
+
+    .proj-link {
+      display:inline-flex; align-items:center; gap:0.5rem; font-size:8px;
+      letter-spacing:0.2em; text-transform:uppercase; background:var(--ink);
+      color:var(--paper); padding:10px 18px; transition:background 0.2s;
+    }
+    .proj-link:hover { background:var(--accent); }
+    .proj-link.outline { background:transparent; color:var(--ink); border:var(--thin); }
+    .proj-link.outline:hover { background:var(--paper-dk); }
+    .proj-links-row { display:flex; gap:0.5rem; flex-wrap:wrap; }
+
+    .related { border-top:var(--border); padding:2rem 2.5rem; }
+    .related-label { font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:1.5rem; }
+    .related-grid { display:grid; grid-template-columns:repeat(3,1fr); }
+    .related-card { border:var(--thin); padding:1.5rem; margin:-0.5px; cursor:pointer; transition:background 0.2s; }
+    .related-card:hover { background:var(--paper-dk); }
+    .related-num { font-size:8px; color:var(--muted); letter-spacing:0.2em; margin-bottom:0.4rem; }
+    .related-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:700; margin-bottom:0.3rem; }
+    .related-sub { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
+
+    .page-footer {
+      border-top:var(--border); padding:1rem 2.5rem; display:flex;
+      justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em;
+    }
+
+    .ipa-sample {
+      font-family:'IM Fell English',serif; font-size:13px; line-height:2;
+      border-left:2px solid var(--accent); padding-left:1rem; margin-top:0.5rem;
+      color:var(--muted);
+    }
+    .ipa-sample span { color:var(--ink); font-style:italic; }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="dot"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav>
+    <div class="nav-left">
+      <a href="gallery-dataai.html" class="back-btn">Back to Data & AI</a>
+      <div class="nav-divider"></div>
+      <div class="nav-logo">V y L o</div>
+    </div>
+    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; 003</div>
+  </nav>
+
+  <div class="proj-header">
+    <div class="proj-header-left">
+      <div class="proj-num">003 — 2025–2026</div>
+      <h1 class="proj-title">Phonological<br>Repr. for <span class="accent">European</span><br>Speech</h1>
+    </div>
+    <div class="proj-header-right">
+      <span class="note-tag">PyTorch</span>
+      <span class="note-tag">Transformers</span>
+      <span class="note-tag">CoVoST 2</span>
+      <span class="note-tag">IPA</span>
+      <span class="note-tag">CTC Loss</span>
+      <span class="note-tag">espeak-ng</span>
+      <span class="note-tag">Stanza</span>
+      <span class="note-tag">librosa</span>
+    </div>
+  </div>
+
+  <div class="proj-body">
+
+    <div class="proj-images">
+      <div class="img-main">
+        <div class="arch-diagram">
+          <div class="arch-row"><div class="arch-box main">Raw Audio Waveform (DE)</div></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><div class="arch-box main">80-dim Log-Mel Filterbank</div></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><div class="arch-box main">Input Projection (80 → 768)</div></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><div class="arch-box main">Transformer Encoder — Layers 1–6</div></div>
+          <div class="arch-arrow red">↓ &nbsp;&nbsp; ⚡ Intermediate CTC Loss → IPA Target</div>
+          <div class="arch-row"><div class="arch-box highlight">CTC Head → IPA Sequence</div></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><div class="arch-box main">Transformer Encoder — Layers 7–12</div></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><div class="arch-box main">Transformer Decoder (6 layers)</div></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><div class="arch-box main">Output: English Translation</div></div>
+          <div class="arch-label">L_total = 0.3 × L_CTC + 0.7 × L_CE</div>
+        </div>
+      </div>
+      <div class="img-thumbs">
+        <div class="img-thumb">
+          <span class="img-thumb-label">DATASET</span>
+          <div class="img-thumb-inner">
+            <div class="thumb-stat">127K</div>
+            <div class="thumb-sub">CoVoST 2<br>DE→EN samples</div>
+          </div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">TRAINING</span>
+          <div class="img-thumb-inner">
+            <div class="thumb-stat">0.54</div>
+            <div class="thumb-sub">Final loss<br>after 15 epochs</div>
+          </div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">IPA VOCAB</span>
+          <div class="img-thumb-inner">
+            <div class="thumb-stat">54</div>
+            <div class="thumb-sub">IPA tokens<br>+ special tokens</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-detail">
+
+      <div class="detail-block">
+        <div class="detail-label">Overview</div>
+        <p class="detail-body">
+          An end-to-end speech translation system using IPA (International Phonetic Alphabet)
+          as an intermediate phonetic supervision signal inside the encoder. Rather than relying
+          on orthographic representations, the model learns phonetic structure directly — aligning
+          computational representations with the intrinsic structure of spoken language.
+        </p>
+        <div class="ipa-sample">
+          "Morgenstund hat Gold im Mund."<br>
+          <span>→ m ˈɔ ɾ ɡ ə n s t ˌʊ n t | h a t | ɡ ˈɔ l t | ɪ m | m ˈʊ n t</span>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Process</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-step">WP 01</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Data Preparation</div>
+              <div class="timeline-desc">Downloaded CoVoST 2 DE→EN (127,834 samples). Extracted 80-dim log-mel filterbank features from MP3 audio. Converted German text → IPA sequences using espeak-ng via phonemizer. Built homophone dictionary with POS-based disambiguation using Stanza. Saved aligned triplets (fbank, IPA, translation) as TSV.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">WP 02</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Model Architecture</div>
+              <div class="timeline-desc">Built encoder-decoder with 12-layer Transformer encoder + 6-layer Transformer decoder. Added Intermediate CTC Loss at encoder layer 6 targeting IPA sequences — key contribution. Used GPT2 tokenizer for English target vocabulary (50,265 tokens). Combined loss: λ × L_CTC + (1−λ) × L_CE with λ = 0.3.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">WP 03</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Training</div>
+              <div class="timeline-desc">Trained on H100 80GB GPU. 15 epochs with lr=1e-5, batch size=32. Loss decreased from 2.14 → 0.54 with consistent convergence. Checkpoint system for resumable training across sessions.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">WP 04</div>
+            <div class="timeline-content">
+              <div class="timeline-title">Homophone Resolution</div>
+              <div class="timeline-desc">Built IPA → word dictionary from training data. Identified 23 homophone groups (e.g. /m ˈeː ɾ/ → {mehr, meer}). POS-based disambiguation using Stanza to resolve ambiguous IPA sequences in context.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Training Progress</div>
+        <div class="loss-chart">
+          <div class="loss-row">
+            <div class="loss-label">Epoch 1</div>
+            <div class="loss-bar-wrap"><div class="loss-bar" style="width:100%"></div></div>
+            <div class="loss-val">2.148</div>
+          </div>
+          <div class="loss-row">
+            <div class="loss-label">Epoch 3</div>
+            <div class="loss-bar-wrap"><div class="loss-bar" style="width:44%"></div></div>
+            <div class="loss-val">0.955</div>
+          </div>
+          <div class="loss-row">
+            <div class="loss-label">Epoch 6</div>
+            <div class="loss-bar-wrap"><div class="loss-bar" style="width:32%"></div></div>
+            <div class="loss-val">0.683</div>
+          </div>
+          <div class="loss-row">
+            <div class="loss-label">Epoch 10</div>
+            <div class="loss-bar-wrap"><div class="loss-bar" style="width:27%"></div></div>
+            <div class="loss-val">0.588</div>
+          </div>
+          <div class="loss-row">
+            <div class="loss-label">Epoch 15</div>
+            <div class="loss-bar-wrap"><div class="loss-bar good" style="width:25%"></div></div>
+            <div class="loss-val">0.541</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="outcome-box">
+          <div class="outcome-label">Key Contribution</div>
+          <div class="outcome-text">
+            Intermediate CTC Loss embedded at encoder layer 6 forces the model to learn
+            phonetically grounded representations — enabling cross-lingual transfer without
+            relying on orthographic systems, while maintaining full end-to-end trainability.
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Tech Stack</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+          <span class="proj-tag">PyTorch 2.6</span>
+          <span class="proj-tag">Transformers 4.57</span>
+          <span class="proj-tag">CoVoST 2</span>
+          <span class="proj-tag">espeak-ng</span>
+          <span class="proj-tag">phonemizer</span>
+          <span class="proj-tag">librosa</span>
+          <span class="proj-tag">Stanza</span>
+          <span class="proj-tag">GPT2 Tokenizer</span>
+          <span class="proj-tag">NVIDIA H100</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="related">
+    <div class="related-label">More from Data & AI</div>
+    <div class="related-grid">
+      <div class="related-card" onclick="location.href='project-EDA.html'">
+        <div class="related-num">001 — 2025</div>
+        <div class="related-title">Multi-Dataset EDA</div>
+        <div class="related-sub">Python · Pandas · Plotly</div>
+      </div>
+      <div class="related-card" onclick="location.href='project-IRIS.html'">
+        <div class="related-num">002 — 2025</div>
+        <div class="related-title">Iris Classifier</div>
+        <div class="related-sub">Python · Scikit-learn</div>
+      </div>
+      <div class="related-card" onclick="location.href='gallery-dataai.html'" style="background:var(--ink);color:var(--paper)">
+        <div class="related-num" style="color:#555">ALL</div>
+        <div class="related-title">View All Data & AI</div>
+        <div class="related-sub" style="color:#555">Gallery →</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span>© 2026 Vy Lo</span>
+    <span>PROJECT 003 — PHONOLOGICAL REPRESENTATION FOR EUROPEAN SPEECH</span>
+    <span><a href="gallery-dataai.html" style="color:var(--muted)">← Back to Gallery</a></span>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('dot');
+    const ring = document.getElementById('ring');
+    document.addEventListener('mousemove', e => {
+      dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
+      ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px';
+    });
+    document.querySelectorAll('a, .related-card, .img-thumb, .proj-link').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
+        ring.style.width = '48px'; ring.style.height = '48px';
+        ring.style.borderColor = 'var(--accent)';
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.width = '28px'; ring.style.height = '28px';
+        ring.style.borderColor = 'var(--ink)';
+      });
+    });
+  </script>
+
+</body>
+</html>

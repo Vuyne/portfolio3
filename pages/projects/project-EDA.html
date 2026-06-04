@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -57,6 +57,16 @@
 
     .proj-images { border-right: var(--border); display:flex; flex-direction:column; }
     .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
+    .img-main img, .img-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .img-main:hover img, .img-thumb:hover img {
+      transform: scale(1.03);
+    }
     .img-placeholder {
       width:100%; height:100%; min-height:300px; background:var(--paper-dk);
       display:flex; align-items:center; justify-content:center;
@@ -122,7 +132,7 @@
 
   <nav>
     <div class="nav-left">
-      <a href="../galleries/gallery-dataai.html" class="back-btn">Back to Data & AI</a>
+      <a href="gallery-dataai.html" class="back-btn">Back to Data & AI</a>
       <div class="nav-divider"></div>
       <div class="nav-logo">V y L o</div>
     </div>
@@ -148,26 +158,20 @@
 
     <div class="proj-images">
       <div class="img-main">
-        <div class="img-placeholder"><span>探</span></div>
+        <img src="../../images/Data-AI/EDA/eda-1.png" alt="EDA Main Visualisation">
       </div>
       <div class="img-thumbs">
         <div class="img-thumb">
           <span class="img-thumb-label">DISTRIBUTIONS</span>
-          <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">統</span>
-          </div>
+          <img src="../../images/Data-AI/EDA/eda-2.png" alt="Distribution Chart">
         </div>
         <div class="img-thumb">
-          <span class="img-thumb-label">CORRELATIONS</span>
-          <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">関</span>
-          </div>
+          <span class="img-thumb-label">RELATIONSHIPS</span>
+          <img src="../../images/Data-AI/EDA/eda-3.png" alt="Relationship Scatter Plot">
         </div>
         <div class="img-thumb">
           <span class="img-thumb-label">INSIGHTS</span>
-          <div class="img-placeholder" style="min-height:0;height:100%">
-            <span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">知</span>
-          </div>
+          <img src="../../images/Data-AI/EDA/eda-4.png" alt="Insights Analysis View">
         </div>
       </div>
     </div>
@@ -180,7 +184,7 @@
           A comprehensive exploratory data analysis project spanning multiple real-world datasets.
           Using the full Python data stack — Pandas for wrangling, Matplotlib for static plots,
           Plotly Express for interactive visualisations — the work uncovers hidden patterns,
-          outliers, distributions, and correlations across varied data domains.
+          outliers, distributions, and relationships across varied data domains.
         </p>
       </div>
 
@@ -205,7 +209,7 @@
             <div class="timeline-step">STEP 03</div>
             <div class="timeline-content">
               <div class="timeline-title">Multivariate Exploration</div>
-              <div class="timeline-desc">Built correlation heatmaps, pair plots, and scatter matrices. Used Plotly Express for interactive drill-down views to surface relationships between features.</div>
+              <div class="timeline-desc">Investigated relationships between features through grouped bar charts, scatter plots with colour-encoded categories, and interactive Plotly Express charts for dynamic drill-down views.</div>
             </div>
           </div>
           <div class="timeline-item">
@@ -245,7 +249,7 @@
       <div class="detail-block">
         <div class="detail-label">Links</div>
         <div class="proj-links-row">
-          <a href="https://github.com/Vuyne" target="_blank" class="proj-link">GitHub →</a>
+          <a href="https://github.com/Vuyne/EDAProject" target="_blank" class="proj-link">GitHub →</a>
           <a href="#" class="proj-link outline">Notebook →</a>
         </div>
       </div>
@@ -266,7 +270,7 @@
         <div class="related-title">NLP IPA Research</div>
         <div class="related-sub">Speech · Phonology</div>
       </div>
-      <div class="related-card" onclick="location.href='../galleries/gallery-dataai.html'" style="background:var(--ink);color:var(--paper)">
+      <div class="related-card" onclick="location.href='gallery-dataai.html'" style="background:var(--ink);color:var(--paper)">
         <div class="related-num" style="color:#555">ALL</div>
         <div class="related-title">View All Data & AI</div>
         <div class="related-sub" style="color:#555">Gallery →</div>
@@ -277,7 +281,7 @@
   <footer class="page-footer">
     <span>© 2026 Vy Lo</span>
     <span>PROJECT 001 — MULTI-DATASET EDA</span>
-    <span><a href="../galleries/gallery-dataai.html" style="color:var(--muted)">← Back to Gallery</a></span>
+    <span><a href="gallery-dataai.html" style="color:var(--muted)">← Back to Gallery</a></span>
   </footer>
 
   <script>
