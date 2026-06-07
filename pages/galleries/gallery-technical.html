@@ -393,123 +393,128 @@
   <!-- GALLERY GRID -->
   <div class="gallery-grid">
 
-    <!-- ══════════════════════════════════════════
-         CARD 1
-         ✏️ SỬA: href trong note-btn, tên project,
-         mô tả, tags, và thay <img> src bằng ảnh thật
-    ══════════════════════════════════════════ -->
-    <div class="proj-card" onclick="location.href='../projects/project-NoButtonFighter.html'">
+    <!-- CARD 1 — Stewart Platform (Featured / Top Priority) -->
+    <div class="proj-card" onclick="location.href='../projects/project-StewartPlatform.html'">
       <div class="proj-index">001</div>
-
-      <!-- Thay thẻ này bằng <img class="proj-img" src="images/project1.jpg" alt="..."> khi có ảnh -->
       <div class="proj-img-placeholder">
-        <span class="placeholder-text">01</span>
+        <span class="placeholder-text">台</span>
       </div>
-
       <div class="proj-note">
-        <div class="note-num">001 — 2026</div>
-        <!-- ✏️ SỬA: Tên project -->
-        <div class="note-title">No-Button Fighter</div>
-        <!-- ✏️ SỬA: Mô tả ngắn -->
-        <div class="note-desc">LeapStrike is a real-time boxing simulation game developed in Unity using Leap Motion 
-          hand tracking for gesture-based punching. The project also integrates an Arduino-controlled 6-DOF Stewart Platform that physically responds to in-game actions, creating an immersive motion-simulation experience.</div>
-        <!-- ✏️ SỬA: Tags công nghệ -->
+        <div class="note-num">001 — 2025–2026</div>
+        <div class="note-title">Stewart<br>Platform</div>
+        <div class="note-desc">A 6-DOF motion platform designed entirely from scratch — SolidWorks CAD, 3D-printed & laser-cut structure, custom PCB in Eagle, and Arduino servo firmware. Built to physically respond to in-game simulation events.</div>
+        <div class="note-tags">
+          <span class="note-tag">SolidWorks</span>
+          <span class="note-tag">3D Printing</span>
+          <span class="note-tag">Laser Cutting</span>
+          <span class="note-tag">Eagle PCB</span>
+          <span class="note-tag">Arduino</span>
+        </div>
+        <a href="../projects/project-StewartPlatform.html" class="note-btn">View Project →</a>
+      </div>
+    </div>
+
+    <!-- CARD 2 — No-Button Fighter (Top Priority — Gesture Control) -->
+    <div class="proj-card" onclick="location.href='../projects/project-NoButtonFighter.html'">
+      <div class="proj-index">002</div>
+      <div class="proj-img-placeholder">
+        <span class="placeholder-text">拳</span>
+      </div>
+      <div class="proj-note">
+        <div class="note-num">002 — 2026</div>
+        <div class="note-title">No-Button<br>Fighter</div>
+        <div class="note-desc">A gesture-controlled 3D fighting game built entirely solo in Unity — real-time hand tracking via Ultraleap maps palm velocity to punches, dodges, and fireballs. Zero buttons. Zero keyboard. Pure hands.</div>
         <div class="note-tags">
           <span class="note-tag">Unity</span>
           <span class="note-tag">C#</span>
-          <span class="note-tag">Solid works</span>
-          <span class="note-tag">3D-Printing</span>
-          <span class="note-tag">Serial Communication</span>
           <span class="note-tag">Leap Motion SDK</span>
-
+          <span class="note-tag">SolidWorks</span>
+          <span class="note-tag">3D Printing</span>
         </div>
-        <!-- ✏️ SỬA: href dẫn đến trang project detail -->
         <a href="../projects/project-NoButtonFighter.html" class="note-btn">View Project →</a>
       </div>
     </div>
 
-    <!-- CARD 2 -->
-    <div class="proj-card" onclick="location.href='project.html'">
-      <div class="proj-index">002</div>
-      <div class="proj-img-placeholder"><span class="placeholder-text">02</span></div>
-      <div class="proj-note">
-        <div class="note-num">002 — 2024</div>
-        <div class="note-title">NLP Classifier</div>
-        <div class="note-desc">Text classification model trained on custom dataset using transformer architecture.</div>
-        <div class="note-tags">
-          <span class="note-tag">Python</span>
-          <span class="note-tag">PyTorch</span>
-          <span class="note-tag">NLP</span>
-        </div>
-        <a href="project.html" class="note-btn">View Project →</a>
-      </div>
-    </div>
-
-    <!-- CARD 3 -->
-    <div class="proj-card" onclick="location.href='project.html'">
+    <!-- CARD 3 — IRIS ML Microservice (Production API) -->
+    <div class="proj-card" onclick="location.href='../projects/project-IRIS.html'">
       <div class="proj-index">003</div>
-      <div class="proj-img-placeholder"><span class="placeholder-text">03</span></div>
+      <div class="proj-img-placeholder">
+        <span class="placeholder-text">分</span>
+      </div>
       <div class="proj-note">
-        <div class="note-num">003 — 2023</div>
-        <div class="note-title">Arduino Robot</div>
-        <div class="note-desc">Autonomous navigation robot with ultrasonic sensing and PID motor control.</div>
+        <div class="note-num">003 — 2026</div>
+        <div class="note-title">Iris ML<br>Microservice</div>
+        <div class="note-desc">Production-ready REST API built with FastAPI and Scikit-learn, featuring strict validation schemas, automated testing, and containerized deployment configuration.</div>
         <div class="note-tags">
-          <span class="note-tag">Arduino</span>
-          <span class="note-tag">C++</span>
-          <span class="note-tag">Hardware</span>
+          <span class="note-tag">Python</span>
+          <span class="note-tag">Scikit-learn</span>
+          <span class="note-tag">FastAPI</span>
+          <span class="note-tag">Docker</span>
+          <span class="note-tag">Pytest</span>
         </div>
-        <a href="project.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-IRIS.html" class="note-btn">View Project →</a>
       </div>
     </div>
 
-    <!-- CARD 4 -->
-    <div class="proj-card" onclick="location.href='project.html'">
+    <!-- CARD 4 — Drone Olympic Simulation (Physics) -->
+    <div class="proj-card" onclick="location.href='../projects/project-DroneOlympic.html'">
       <div class="proj-index">004</div>
-      <div class="proj-img-placeholder"><span class="placeholder-text">04</span></div>
+      <div class="proj-img-placeholder">
+        <span class="placeholder-text">機</span>
+      </div>
       <div class="proj-note">
-        <div class="note-num">004 — 2023</div>
-        <div class="note-title">Data Dashboard</div>
-        <div class="note-desc">Real-time data visualization pipeline with Jupyter and custom charting library.</div>
+        <div class="note-num">004 — 2025</div>
+        <div class="note-title">Drone Olympic<br>Simulation</div>
+        <div class="note-desc">Physics-accurate drone racing simulation inspired by Olympic-style obstacle courses — flight dynamics, lap timing, and course generation in Unity.</div>
         <div class="note-tags">
-          <span class="note-tag">Python</span>
-          <span class="note-tag">Jupyter</span>
-          <span class="note-tag">D3.js</span>
+          <span class="note-tag">Unity</span>
+          <span class="note-tag">C#</span>
+          <span class="note-tag">Physics</span>
+          <span class="note-tag">Game Design</span>
         </div>
-        <a href="project.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-DroneOlympic.html" class="note-btn">View Project →</a>
       </div>
     </div>
 
-    <!-- CARD 5 -->
-    <div class="proj-card" onclick="location.href='project.html'">
+    <!-- CARD 5 — GeoCache Device (GPS Hardware) -->
+    <div class="proj-card" onclick="location.href='../projects/project-GeoCache.html'">
       <div class="proj-index">005</div>
-      <div class="proj-img-placeholder"><span class="placeholder-text">05</span></div>
+      <div class="proj-img-placeholder">
+        <span class="placeholder-text">位</span>
+      </div>
       <div class="proj-note">
-        <div class="note-num">005 — 2023</div>
-        <div class="note-title">CAD Assembly</div>
-        <div class="note-desc">Full mechanical assembly designed in SolidWorks for digital fabrication.</div>
+        <div class="note-num">005 — 2025</div>
+        <div class="note-title">GeoCache<br>Device</div>
+        <div class="note-desc">A handheld GPS treasure-hunt device — Adafruit Feather + Ultimate GPS + OLED display + Seesaw joystick interface guiding users to hidden cache coordinates and logging data to MicroSD card.</div>
         <div class="note-tags">
-          <span class="note-tag">SolidWorks</span>
-          <span class="note-tag">CAD</span>
-          <span class="note-tag">3D Print</span>
+          <span class="note-tag">Feather</span>
+          <span class="note-tag">GPS</span>
+          <span class="note-tag">OLED</span>
+          <span class="note-tag">Seesaw I2C</span>
+          <span class="note-tag">C++</span>
         </div>
-        <a href="project.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-GeoCache.html" class="note-btn">View Project →</a>
       </div>
     </div>
 
-    <!-- CARD 6 -->
-    <div class="proj-card" onclick="location.href='project.html'">
+    <!-- CARD 6 — Spider Lilies (AI Game) -->
+    <div class="proj-card" onclick="location.href='../projects/project-EscapeMaze.html'">
       <div class="proj-index">006</div>
-      <div class="proj-img-placeholder"><span class="placeholder-text">06</span></div>
+      <div class="proj-img-placeholder">
+        <span class="placeholder-text">花</span>
+      </div>
       <div class="proj-note">
-        <div class="note-num">006 — 2022</div>
-        <div class="note-title">Web Scraper</div>
-        <div class="note-desc">Automated data collection tool with scheduling and structured export.</div>
+        <div class="note-num">006 — 2025</div>
+        <div class="note-title">Spider<br>Lilies</div>
+        <div class="note-desc">Survival horror maze game — collect spider lilies in a haunted field at night to revive a lost lover while escaping Death. NavMesh AI, survival mechanics, and playable on Unity Play.</div>
         <div class="note-tags">
-          <span class="note-tag">Python</span>
-          <span class="note-tag">BeautifulSoup</span>
-          <span class="note-tag">SQL</span>
+          <span class="note-tag">Unity</span>
+          <span class="note-tag">C#</span>
+          <span class="note-tag">NavMesh AI</span>
+          <span class="note-tag">Game Design</span>
+          <span class="note-tag">UI</span>
         </div>
-        <a href="project.html" class="note-btn">View Project →</a>
+        <a href="../projects/project-EscapeMaze.html" class="note-btn">View Project →</a>
       </div>
     </div>
 

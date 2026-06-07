@@ -448,6 +448,50 @@
     .hanfu-tags { display:flex; gap:0.4rem; flex-wrap:wrap; }
     .hanfu-tag { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:2px 8px; }
 
+    /* ══════════════════════════
+       GALLERY GRIDS — Images
+    ══════════════════════════ */
+    .gallery-grid {
+      display: grid;
+      border-bottom: var(--border);
+      overflow: hidden;
+    }
+
+    .flightfes-gallery {
+      grid-template-columns: 1fr 1fr;
+      background: var(--paper-dk);
+    }
+
+    .hanfu-gallery {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .gallery-cell {
+      border-right: var(--thin);
+      border-bottom: var(--thin);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+    }
+
+    /* FlightFes: 2-column grid */
+    .flightfes-gallery .gallery-cell:nth-child(2n) { border-right: none; }
+    .flightfes-gallery .gallery-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+    /* Hanfu: 3-column grid */
+    .hanfu-gallery .gallery-cell:nth-child(3n) { border-right: none; }
+    .hanfu-gallery .gallery-cell:nth-last-child(-n+3) { border-bottom: none; }
+
+    .gallery-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-cell:hover img { transform: scale(1.04); }
+
     /* ── FOOTER ── */
     .page-footer { border-top:var(--border); padding:1rem 2.5rem; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em; }
   </style>
@@ -577,6 +621,16 @@
     </div>
   </div>
 
+  <!-- ── FLIGHTFES GALLERY ── -->
+  <div class="gallery-grid flightfes-gallery">
+    <div class="gallery-cell">
+      <img src="../images/CommunityWork/FlightFes/FlightFes-1.JPG" alt="FlightFes team">
+    </div>
+    <div class="gallery-cell">
+      <img src="../images/CommunityWork/FlightFes/FlightFes-2.JPG" alt="FlightFes event">
+    </div>
+  </div>
+
   <!-- ══════════════════════════════
        SECTION 2 — PRESS CLUB
   ══════════════════════════════ -->
@@ -692,6 +746,19 @@
         <span class="hanfu-tag">Live Performance</span>
         <span class="hanfu-tag">Community Events</span>
       </div>
+    </div>
+  </div>
+
+  <!-- ── HANFU GALLERY ── -->
+  <div class="gallery-grid hanfu-gallery">
+    <div class="gallery-cell">
+      <img src="../images/CommunityWork/Hanfu/Hanfu-1.png" alt="Hanfu performance 1">
+    </div>
+    <div class="gallery-cell">
+      <img src="../images/CommunityWork/Hanfu/Hanfu-2.png" alt="Hanfu performance 2">
+    </div>
+    <div class="gallery-cell">
+      <img src="../images/CommunityWork/Hanfu/Hanfu-3.png" alt="Hanfu performance 3">
     </div>
   </div>
 

@@ -306,12 +306,12 @@
 
     .branding-images {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
     }
     .branding-img-cell {
       border-left: var(--thin);
-      border-bottom: var(--thin);
+      border-bottom: none;
       overflow: hidden;
       position: relative;
     }
@@ -376,8 +376,8 @@
 
     .photo-left {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
       border-right: var(--border);
     }
 
@@ -387,8 +387,8 @@
       overflow: hidden;
       position: relative;
     }
-    .photo-cell:nth-child(3n) { border-right: none; }
-    .photo-cell:nth-last-child(-n+3) { border-bottom: none; }
+    .photo-cell:nth-child(2n) { border-right: none; }
+    .photo-cell:nth-last-child(-n+2) { border-bottom: none; }
     .photo-cell.wide { grid-column: span 2; }
 
     .photo-sidebar {
@@ -526,8 +526,8 @@
 
     <!-- Image col 1 — box cover -->
     <div class="bg-cell">
-      <div class="img-slot" style="min-height:400px">
-        <!-- <img src="images/boardgame-cover.jpg" alt="Boardgame box cover"> -->
+      <div class="img-slot has-img" style="min-height:400px">
+        <img src="../../images/Artwork/BoardGame/Overall.jpg" alt="Boardgame box cover">
         <span class="img-slot-char">盤</span>
         <span class="img-slot-label">Box Cover</span>
       </div>
@@ -596,46 +596,19 @@
         <h2 class="branding-title">Silver<br><span class="accent">Jewellery</span><br>Branding</h2>
       </div>
       <p class="branding-body">
-        Designed the complete visual identity for a silver jewellery shop in Vietnam —
-        from logo mark through to packaging, labels, and brand collateral.
-        The work required balancing elegant femininity with commercial clarity
+        Designed the visual identity for a silver jewellery shop in Vietnam —
+        logo mark that balances elegant femininity with commercial clarity
         for a local retail context.
       </p>
       <div class="branding-deliverables">
         <div class="deliv-row"><div class="deliv-dot"></div>Logo design — primary mark + variations</div>
-        <div class="deliv-row"><div class="deliv-dot"></div>Brand colour palette + typography system</div>
-        <div class="deliv-row"><div class="deliv-dot"></div>Packaging design — boxes, bags, tags</div>
-        <div class="deliv-row"><div class="deliv-dot"></div>Brand collateral — stickers, cards, labels</div>
       </div>
     </div>
 
     <div class="branding-images">
       <div class="branding-img-cell">
-        <div class="img-slot">
-          <!-- <img src="images/brand-logo.jpg" alt="Logo design"> -->
-          <span class="img-slot-char">印</span>
-          <span class="img-slot-label">Logo</span>
-        </div>
-      </div>
-      <div class="branding-img-cell">
-        <div class="img-slot">
-          <!-- <img src="images/brand-palette.jpg" alt="Brand palette"> -->
-          <span class="img-slot-char">色</span>
-          <span class="img-slot-label">Palette</span>
-        </div>
-      </div>
-      <div class="branding-img-cell">
-        <div class="img-slot">
-          <!-- <img src="images/brand-packaging.jpg" alt="Packaging"> -->
-          <span class="img-slot-char">包</span>
-          <span class="img-slot-label">Packaging</span>
-        </div>
-      </div>
-      <div class="branding-img-cell">
-        <div class="img-slot">
-          <!-- <img src="images/brand-collateral.jpg" alt="Collateral"> -->
-          <span class="img-slot-char">物</span>
-          <span class="img-slot-label">Collateral</span>
+        <div class="img-slot has-img">
+          <img src="../../images/Artwork/Logo/Logo-Poinse.png" alt="Logo design"> 
         </div>
       </div>
     </div>
@@ -673,8 +646,8 @@
 
     <!-- Character image 1 -->
     <div class="char-cell">
-      <div class="img-slot" style="min-height:240px">
-        <!-- <img src="images/char-01.jpg" alt="Character design 1"> -->
+      <div class="img-slot has-img" style="min-height:240px">
+        <img src="../../images/Artwork/CharacterDesign-GameJingle/Char-01.png" alt="Character design 1">
         <span class="img-slot-char">キャ</span>
         <span class="img-slot-label">Character 01</span>
       </div>
@@ -683,18 +656,18 @@
 
     <!-- Character image 2 -->
     <div class="char-cell">
-      <div class="img-slot" style="min-height:240px">
-        <!-- <img src="images/char-02.jpg" alt="Character design 2"> -->
+      <div class="img-slot has-img" style="min-height:240px">
+        <img src="../../images/Artwork/CharacterDesign-GameJingle/Char-02.png" alt="Character design 2">
         <span class="img-slot-char">ラク</span>
         <span class="img-slot-label">Character 02</span>
       </div>
       <span class="cell-label">ORIGINAL</span>
     </div>
 
-    <!-- Comic panel -->
+    <!-- UI panel -->
     <div class="char-cell">
-      <div class="img-slot" style="min-height:240px">
-        <!-- <img src="images/comic-panel.jpg" alt="Comic panel"> -->
+      <div class="img-slot has-img" style="min-height:240px">
+        <img src="../../images/Artwork/CharacterDesign-GameJingle/UI-1.png" alt="UI panel">
         <span class="img-slot-char">漫</span>
         <span class="img-slot-label">Comic Panel</span>
       </div>
@@ -703,8 +676,8 @@
 
     <!-- Misc illustration -->
     <div class="char-cell">
-      <div class="img-slot" style="min-height:240px">
-        <!-- <img src="images/misc-illustration.jpg" alt="Misc illustration"> -->
+      <div class="img-slot has-img" style="min-height:240px">
+        <img src="../../images/Artwork/CharacterDesign-GameJingle/Char-03.png" alt="Misc illustration">
         <span class="img-slot-char">絵</span>
         <span class="img-slot-label">Illustration</span>
       </div>
@@ -713,8 +686,8 @@
 
     <!-- Expression sheet -->
     <div class="char-cell">
-      <div class="img-slot" style="min-height:240px">
-        <!-- <img src="images/expression-sheet.jpg" alt="Expression sheet"> -->
+      <div class="img-slot has-img" style="min-height:240px">
+        <img src="../../images/Artwork/CharacterDesign-GameJingle/Char-04.png" alt="Expression sheet">
         <span class="img-slot-char">顔</span>
         <span class="img-slot-label">Expressions</span>
       </div>
@@ -728,7 +701,7 @@
   ══════════════════════ -->
   <div class="section-bar">
     <div class="section-bar-num">04 &nbsp;/&nbsp; Fine Work</div>
-    <div class="section-bar-name">Realistic Drawing & Landscape Photography</div>
+    <div class="section-bar-name">Realistic Drawing </div>
     <div class="section-bar-note">Personal Practice &nbsp;·&nbsp; Ongoing</div>
   </div>
 
@@ -737,34 +710,20 @@
     <!-- Photo grid left -->
     <div class="photo-left">
       <div class="photo-cell wide">
-        <div class="img-slot" style="min-height:240px">
-          <!-- <img src="images/photo-landscape-hero.jpg" alt="Landscape hero"> -->
-          <span class="img-slot-char">景</span>
-          <span class="img-slot-label">Landscape Hero</span>
+        <div class="img-slot has-img" style="aspect-ratio: 2/1;">
+          <img src="../../images/Artwork/Houses-DigitalArt.jpg" alt="Landscape hero">
         </div>
         <span class="cell-label">LANDSCAPE</span>
       </div>
       <div class="photo-cell">
-        <div class="img-slot" style="min-height:200px">
-          <!-- <img src="images/photo-02.jpg" alt="Landscape 2"> -->
-          <span class="img-slot-char">空</span>
-          <span class="img-slot-label">Sky</span>
+        <div class="img-slot has-img" style="aspect-ratio: 1/1;">
+          <img src="../../images/Artwork/Realistic/Botto.png" alt="Landscape 2">
         </div>
       </div>
       <div class="photo-cell">
-        <div class="img-slot" style="min-height:200px">
-          <!-- <img src="images/photo-03.jpg" alt="Landscape 3"> -->
-          <span class="img-slot-char">水</span>
-          <span class="img-slot-label">Water</span>
+        <div class="img-slot has-img" style="aspect-ratio: 1/1;">
+          <img src="../../images/Artwork/Realistic/Catto.png" alt="Landscape 3">
         </div>
-      </div>
-      <div class="photo-cell">
-        <div class="img-slot" style="min-height:200px">
-          <!-- <img src="images/realistic-01.jpg" alt="Realistic drawing"> -->
-          <span class="img-slot-char">描</span>
-          <span class="img-slot-label">Realistic</span>
-        </div>
-        <span class="cell-label">REALISTIC DRAWING</span>
       </div>
     </div>
 
@@ -776,8 +735,7 @@
       </div>
 
       <p class="photo-body">
-        Landscape photography shot across multiple locations — chasing light,
-        framing negative space, finding geometry in nature. Realistic drawing
+        Realistic drawing
         practice focused on observational accuracy, value studies, and texture rendering.
       </p>
 

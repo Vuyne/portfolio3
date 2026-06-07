@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -48,23 +48,13 @@
 
     .proj-body { display:grid; grid-template-columns:1fr 420px; min-height:calc(100vh - 120px); border-bottom:var(--border); }
     .proj-images { border-right:var(--border); display:flex; flex-direction:column; }
-.img-main { border-bottom:var(--thin); overflow:hidden; flex:2; }
-    .img-main img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+.img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
+    .img-main img, .img-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease; }
+    .img-main:hover img, .img-thumb:hover img { transform:scale(1.03); }
     .img-placeholder { width:100%; height:100%; min-height:300px; background:var(--paper-dk); display:flex; align-items:center; justify-content:center; }
     .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
     .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
     .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
-    .img-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
     .img-thumb:last-child { border-right:none; }
     .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
     .proj-detail { padding:2.5rem 2rem; display:flex; flex-direction:column; gap:2rem; overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px); }
