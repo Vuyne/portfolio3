@@ -200,7 +200,18 @@
       user-select: none;
     }
 
-    .proj-card:hover .proj-img-placeholder { transform: scale(1.04); }
+    .proj-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease, filter 0.4s ease;
+      filter: grayscale(20%);
+    }
+
+    .proj-card:hover .proj-img-placeholder,
+    .proj-card:hover .proj-img { transform: scale(1.04); }
+    .proj-card:hover .proj-img { filter: grayscale(0%); }
 
     .proj-note {
       position: absolute;
@@ -319,9 +330,7 @@
     <!-- CARD 1 — EDA -->
     <div class="proj-card" onclick="location.href='../projects/project-EDA.html'">
       <div class="proj-index">001</div>
-      <div class="proj-img-placeholder">
-        <span class="placeholder-text">探</span>
-      </div>
+      <img class="proj-img" src="../../images/Data-AI/EDA/eda-1.png" alt="Multi-Dataset EDA">
       <div class="proj-note">
         <div class="note-num">001 — 2025</div>
         <div class="note-title">Multi-Dataset EDA</div>
@@ -339,9 +348,7 @@
     <!-- CARD 2 — IRIS -->
     <div class="proj-card" onclick="location.href='../projects/project-IRIS.html'">
       <div class="proj-index">002</div>
-      <div class="proj-img-placeholder">
-        <span class="placeholder-text">分</span>
-      </div>
+      <img class="proj-img" src="../../images/Data-AI/IRIS/Iris-1.png" alt="Iris ML Microservice">
       <div class="proj-note">
         <div class="note-num">002 — 2026</div>
         <div class="note-title">Iris ML Microservice</div>
@@ -360,9 +367,7 @@
     <!-- CARD 3 — NLP IPA (featured, spans 2 cols) -->
     <div class="proj-card featured" onclick="location.href='../projects/project-NLP-IPA.html'">
       <div class="proj-index">003 — RESEARCH</div>
-      <div class="proj-img-placeholder" style="background: #1a1714;">
-        <span class="placeholder-text" style="color:#2d2926; font-size:80px;">音</span>
-      </div>
+      <img class="proj-img" src="../../images/Data-AI/nlp_ipa_cover.png" alt="Phonological Representation for European Texts">
       <div class="proj-note" style="background:var(--ink); color:var(--paper); border-top-color:var(--accent);">
         <div class="note-num" style="color:#666;">003 — 2025–2026</div>
         <div class="note-title" style="color:var(--paper);">Phonological Representation<br>for European Texts</div>

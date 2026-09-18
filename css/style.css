@@ -554,17 +554,19 @@ nav {
    10. SKILLS
 ================================================================ */
 .skills-wrap {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   border-bottom: var(--border);
 }
 
 .skill-col {
-  flex: 1;
   padding: 2rem 1.75rem;
   border-right: var(--thin);
+  border-bottom: var(--thin);
   position: relative;
 }
-.skill-col:last-child { border-right: none; }
+.skill-col:nth-child(3n) { border-right: none; }
+.skill-col:nth-last-child(-n+3) { border-bottom: none; }
 
 /* Số thứ tự góc trên phải — lấy từ data-n trong HTML */
 .skill-col::before {
@@ -777,8 +779,9 @@ nav {
   .about-col { border-right: none; border-bottom: var(--thin); }
 
   /* Skills */
-  .skills-wrap { flex-direction: column; }
-  .skill-col { border-right: none; border-bottom: var(--thin); }
+  .skills-wrap { grid-template-columns: 1fr; }
+  .skill-col { border-right: none !important; border-bottom: var(--thin) !important; }
+  .skill-col:last-child { border-bottom: none !important; }
 
   /* Contact */
   #contact { grid-template-columns: 1fr; }

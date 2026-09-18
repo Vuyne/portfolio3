@@ -83,7 +83,11 @@
     .proj-card.hero .proj-img-placeholder { background: #1a1714; }
     .placeholder-text { font-family:'Noto Serif JP',serif; font-size:40px; font-weight:900; color:var(--paper-md); user-select:none; }
 
-    .proj-card:hover .proj-img-placeholder { transform:scale(1.04); }
+    .proj-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease, filter 0.4s ease; filter:grayscale(20%); }
+
+    .proj-card:hover .proj-img-placeholder,
+    .proj-card:hover .proj-img { transform:scale(1.04); }
+    .proj-card:hover .proj-img { filter:grayscale(0%); }
 
     .proj-note {
       position:absolute; bottom:0; left:0; right:0;
@@ -176,9 +180,8 @@
     <div class="proj-card hero" onclick="location.href='../projects/project-NoButtonFighter.html'">
       <div class="proj-index">001</div>
       <div class="role-badge solo">Solo Project</div>
-      <div class="proj-img-placeholder">
-        <span class="placeholder-text" style="color:#2d2926; font-size:90px;">拳</span>
-      </div>
+      <img class="proj-img" src="../../images/Game-Simulation/NoButtonfighter/StreetFighter-GamePlay.png" alt="No-Button Fighter">
+
       <div class="proj-note">
         <div class="note-num">001 — 2026</div>
         <div class="note-title" style="color:var(--paper);">No-Button Fighter</div>
@@ -199,9 +202,7 @@
     <div class="proj-card standard" onclick="location.href='../projects/project-DroneOlympic.html'">
       <div class="proj-index">002</div>
       <div class="role-badge">Main Coder · 2-Person</div>
-      <div class="proj-img-placeholder">
-        <span class="placeholder-text">機</span>
-      </div>
+      <img class="proj-img" src="../../images/Drone/Drone-1.png" alt="Drone Olympic Simulation">
       <div class="proj-note">
         <div class="note-num">002 — 2025</div>
         <div class="note-title">Drone Olympic<br>Simulation</div>
@@ -219,9 +220,7 @@
     <div class="proj-card standard" onclick="location.href='../projects/project-EscapeMaze.html'">
       <div class="proj-index">003</div>
       <div class="role-badge">AI + Controls · 4-Person</div>
-      <div class="proj-img-placeholder">
-        <span class="placeholder-text">花</span>
-      </div>
+      <img class="proj-img" src="../../images/Game-Simulation/SpiderLilies/SpiderLily_00.png" alt="Spider Lilies">
       <div class="proj-note">
         <div class="note-num">003 — 2025</div>
         <div class="note-title">Spider<br>Lilies</div>
