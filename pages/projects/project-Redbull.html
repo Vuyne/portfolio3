@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Bull F1 Simulator — Vy Lo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#1a1714; --paper:#f0ebe0; --paper-md:#e8e0d0; --paper-dk:#ddd4c0; --accent:#c4392b; --muted:#8a7f72; --border:1.5px solid #1a1714; --thin:1px solid #1a1714; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--paper); color:var(--ink); font-family:'Space Mono',monospace; cursor:crosshair; }
+    a { color:inherit; text-decoration:none; }
+    .cursor-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
+    .cursor-ring { width:28px; height:28px; border:1px solid var(--ink); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left .1s ease, top .1s ease, width .2s, height .2s, border-color .2s; }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2.5rem; border-bottom:var(--border); position:sticky; top:0; background:var(--paper); z-index:100; }
+    .nav-left { display:flex; align-items:center; gap:1.5rem; }
+    .back-btn { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
+    .back-btn::before { content:'←'; }
+    .back-btn:hover { color:var(--ink); }
+    .nav-divider { width:1px; height:16px; background:var(--muted); opacity:0.4; }
+    .nav-logo { font-family:'Noto Serif JP',serif; font-weight:700; font-size:12px; letter-spacing:0.35em; }
+    .nav-meta { font-size:9px; color:var(--muted); letter-spacing:0.15em; }
+    .proj-header { border-bottom:var(--border); padding:2rem 2.5rem; display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
+    .proj-header-left { display:flex; flex-direction:column; gap:0.5rem; }
+    .proj-num { font-size:9px; color:var(--muted); border:1px solid var(--muted); padding:2px 6px; display:inline-block; }
+    .proj-role { display:inline-flex; gap:0.5rem; align-items:center; margin-top:0.25rem; flex-wrap:wrap; }
+    .role-pill { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; padding:3px 9px; border:var(--thin); }
+    .role-pill.highlight { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+    .mentor-badge { display:inline-flex; align-items:center; gap:0; border:var(--thin); overflow:hidden; }
+    .mentor-stripe { width:5px; height:100%; background:var(--accent); flex-shrink:0; align-self:stretch; }
+    .mentor-text { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; padding:4px 9px; }
+    .proj-title { font-family:'Noto Serif JP',serif; font-size:clamp(28px,4vw,56px); font-weight:900; line-height:0.95; }
+    .proj-title .accent { color:var(--accent); }
+    .proj-header-right { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; max-width:40%; }
+    .note-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
+    .proj-body { display:grid; grid-template-columns:1fr 420px; min-height:calc(100vh - 120px); border-bottom:var(--border); }
+    .proj-images { border-right:var(--border); display:flex; flex-direction:column; }
+    .img-main { border-bottom:var(--thin); overflow:hidden; flex:2; position:relative; }
+    .img-main img, .img-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease; }
+    .img-main:hover img, .img-thumb:hover img { transform:scale(1.03); }
+    .img-placeholder { width:100%; height:100%; min-height:300px; background:var(--paper-dk); display:flex; align-items:center; justify-content:center; }
+    .img-placeholder span { font-family:'Noto Serif JP',serif; font-size:80px; font-weight:900; color:var(--paper-md); }
+    .img-thumbs { display:grid; grid-template-columns:repeat(3,1fr); flex:1; }
+    .img-thumb { border-right:var(--thin); overflow:hidden; aspect-ratio:4/3; position:relative; cursor:pointer; }
+    .img-thumb:last-child { border-right:none; }
+    .img-thumb-label { position:absolute; top:0.5rem; left:0.5rem; font-size:8px; letter-spacing:0.1em; background:var(--paper); border:var(--thin); padding:1px 6px; z-index:2; }
+    .proj-detail { padding:2.5rem 2rem; display:flex; flex-direction:column; gap:2rem; overflow-y:auto; position:sticky; top:54px; height:calc(100vh - 54px); }
+    .detail-block { padding-bottom:2rem; border-bottom:var(--thin); }
+    .detail-block:last-child { border-bottom:none; padding-bottom:0; }
+    .detail-label { font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
+    .detail-body { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; }
+    .contrib-box { border:var(--border); padding:1rem 1.25rem; display:flex; flex-direction:column; gap:0.5rem; }
+    .contrib-label { font-size:7px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:0.25rem; }
+    .contrib-row { display:flex; gap:0.5rem; align-items:flex-start; }
+    .contrib-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:4px; }
+    .contrib-text { font-size:10px; line-height:1.6; letter-spacing:0.03em; }
+    .spec-table { width:100%; border:var(--thin); border-collapse:collapse; }
+    .spec-table td { padding:0.6rem 0.9rem; border-bottom:var(--thin); font-size:10px; line-height:1.5; }
+    .spec-table tr:last-child td { border-bottom:none; }
+    .spec-table td:first-child { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); width:40%; }
+    .timeline { display:flex; flex-direction:column; }
+    .timeline-item { display:grid; grid-template-columns:60px 1fr; gap:1rem; padding:1rem 0; border-bottom:var(--thin); }
+    .timeline-item:last-child { border-bottom:none; }
+    .timeline-step { font-size:8px; letter-spacing:0.15em; color:var(--muted); padding-top:2px; }
+    .timeline-title { font-family:'Noto Serif JP',serif; font-size:13px; font-weight:700; margin-bottom:0.3rem; }
+    .timeline-desc { font-size:10px; color:var(--muted); line-height:1.7; letter-spacing:0.03em; }
+    .outcome-box { background:var(--ink); color:var(--paper); padding:1.25rem; }
+    .outcome-label { font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:#888; margin-bottom:0.5rem; }
+    .outcome-text { font-family:'IM Fell English',serif; font-style:italic; font-size:14px; line-height:1.7; }
+    .proj-tag { font-size:8px; letter-spacing:0.15em; text-transform:uppercase; border:var(--thin); padding:3px 9px; }
+    .related { border-top:var(--border); padding:2rem 2.5rem; }
+    .related-label { font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); margin-bottom:1.5rem; }
+    .related-grid { display:grid; grid-template-columns:repeat(3,1fr); }
+    .related-card { border:var(--thin); padding:1.5rem; margin:-0.5px; cursor:pointer; transition:background 0.2s; }
+    .related-card:hover { background:var(--paper-dk); }
+    .related-num { font-size:8px; color:var(--muted); letter-spacing:0.2em; margin-bottom:0.4rem; }
+    .related-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:700; margin-bottom:0.3rem; }
+    .related-sub { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
+    .page-footer { border-top:var(--border); padding:1rem 2.5rem; display:flex; justify-content:space-between; font-size:9px; color:var(--muted); letter-spacing:0.15em; }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="dot"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav>
+    <div class="nav-left">
+      <a href="../galleries/gallery-cad&arduino.html" class="back-btn">Back to Fabrication</a>
+      <div class="nav-divider"></div>
+      <div class="nav-logo">V y L o</div>
+    </div>
+    <div class="nav-meta">PROJECT DETAIL &nbsp;/&nbsp; RED BULL F1 SIM</div>
+  </nav>
+
+  <div class="proj-header">
+    <div class="proj-header-left">
+      <div class="proj-num">RB — 2026</div>
+      <div class="proj-role">
+        <span class="role-pill highlight">Simulation Engineer</span>
+        <div class="mentor-badge">
+          <div class="mentor-stripe"></div>
+          <span class="mentor-text">Red Bull Racing Mentorship</span>
+        </div>
+      </div>
+      <h1 class="proj-title">Red Bull<br><span class="accent">F1 Simulator</span></h1>
+    </div>
+    <div class="proj-header-right">
+      <span class="note-tag">Physical Build</span>
+      <span class="note-tag">Haptic Feedback</span>
+      <span class="note-tag">Mechanical Assembly</span>
+      <span class="note-tag">Fabrication</span>
+    </div>
+  </div>
+
+  <div class="proj-body">
+
+    <div class="proj-images">
+      <div class="img-main">
+        <!-- <img src="../../images/RedBull/RedBull-1.jpg" alt="F1 Simulator build"> -->
+        <div class="img-placeholder"><span>速</span></div>
+      </div>
+      <div class="img-thumbs">
+        <div class="img-thumb">
+          <span class="img-thumb-label">DECK</span>
+          <!-- <img src="../../images/RedBull/RedBull-2.jpg" alt="Drilled deck with heat-set inserts"> -->
+          <div class="img-placeholder" style="min-height:0;height:100%"><span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">台</span></div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">SEAT</span>
+          <!-- <img src="../../images/RedBull/RedBull-3.jpg" alt="ButtKicker mounted on seat frame"> -->
+          <div class="img-placeholder" style="min-height:0;height:100%"><span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">席</span></div>
+        </div>
+        <div class="img-thumb">
+          <span class="img-thumb-label">SETUP</span>
+          <!-- <img src="../../images/RedBull/RedBull-4.jpg" alt="Full simulator setup"> -->
+          <div class="img-placeholder" style="min-height:0;height:100%"><span style="font-size:30px;font-family:'Noto Serif JP',serif;color:var(--paper-md)">組</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-detail">
+
+      <div class="detail-block">
+        <div class="detail-label">Overview</div>
+        <p class="detail-body">
+          Physical build of an F1 simulation rig under Red Bull Racing mentorship.
+          Work spans structural assembly, precision deck fabrication, and haptic
+          feedback integration — routing ButtKicker tactile transducers through a
+          custom-drilled platform designed for maximum vibration transfer to the driver.
+        </p>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">My Contribution</div>
+        <div class="contrib-box">
+          <div class="contrib-label">Vy Lo — Simulation Engineer</div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Assembled and positioned the metal TV stand for the simulator display — structural base for the full rig layout</div>
+          </div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Drilled the simulation deck using a provided template, creating openings at specified locations for ButtKicker cable routing</div>
+          </div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Researched optimal ButtKicker mounting position — identified lever-effect placement on seat frame away from support points to maximise vibration amplitude</div>
+          </div>
+          <div class="contrib-row">
+            <div class="contrib-dot"></div>
+            <div class="contrib-text">Drilled pilot holes with Dremel and installed heat-set threaded inserts via soldering iron, creating durable mounting points for all seat hardware</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Build Specs</div>
+        <table class="spec-table">
+          <tr><td>Haptic System</td><td>ButtKicker Tactile Transducer</td></tr>
+          <tr><td>Mounting</td><td>Heat-set threaded inserts, rigid seat-frame direct mount</td></tr>
+          <tr><td>Deck Fabrication</td><td>Template-drilled + Dremel pilot holes</td></tr>
+          <tr><td>Vibration Strategy</td><td>Lever-effect positioning + rubber seat isolation</td></tr>
+          <tr><td>Context</td><td>Red Bull Racing Mentorship</td></tr>
+        </table>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Process</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-step">WEEK 01</div>
+            <div>
+              <div class="timeline-title">Structural Setup</div>
+              <div class="timeline-desc">Assembled metal TV stand and positioned it as the structural anchor of the simulator display. Drilled the deck using a provided template for ButtKicker cable routing.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">WEEK 02</div>
+            <div>
+              <div class="timeline-title">Haptic Research &amp; Deck Fabrication</div>
+              <div class="timeline-desc">Researched ButtKicker placement: direct mount to rigid seat frame, lever-effect positioning away from support points, rubber isolation between seat and deck. Installed heat-set inserts for hardware mounting.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-step">ONGOING</div>
+            <div>
+              <div class="timeline-title">Component Installation</div>
+              <div class="timeline-desc">Routing amplifier and cables inside the deck, mounting ButtKicker to seat frame at the researched position. Preparing for full system integration.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="outcome-box">
+          <div class="outcome-label">Outcome</div>
+          <div class="outcome-text">
+            A precision-fabricated simulator deck with heat-set mounting points and
+            a vibration system engineered for maximum haptic feedback — seat-mounted,
+            lever-positioned, and isolated from the platform for driver-focused feel.
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-label">Tech Stack</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+          <span class="proj-tag">Physical Fabrication</span>
+          <span class="proj-tag">Dremel</span>
+          <span class="proj-tag">Heat-Set Inserts</span>
+          <span class="proj-tag">ButtKicker</span>
+          <span class="proj-tag">Haptic Feedback</span>
+          <span class="proj-tag">Structural Assembly</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="related">
+    <div class="related-label">Related Projects</div>
+    <div class="related-grid">
+      <div class="related-card" onclick="location.href='project-StewartPlatform.html'">
+        <div class="related-num">SP — 2025</div>
+        <div class="related-title">Stewart Platform</div>
+        <div class="related-sub">Fabrication · CAD</div>
+      </div>
+      <div class="related-card" onclick="location.href='project-EvaLabs.html'">
+        <div class="related-num">EVA — 2026</div>
+        <div class="related-title">EvaLabs Duck Game</div>
+        <div class="related-sub">Unreal · Hardware</div>
+      </div>
+      <div class="related-card" onclick="location.href='../galleries/gallery-cad&arduino.html'" style="background:var(--ink);color:var(--paper)">
+        <div class="related-num" style="color:#555">ALL</div>
+        <div class="related-title">View All Fabrication</div>
+        <div class="related-sub" style="color:#555">Gallery →</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span>© 2026 Vy Lo</span>
+    <span>PROJECT — RED BULL F1 SIMULATOR</span>
+    <span><a href="../galleries/gallery-cad&arduino.html" style="color:var(--muted)">← Back to Gallery</a></span>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('dot');
+    const ring = document.getElementById('ring');
+    document.addEventListener('mousemove', e => {
+      dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
+      ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px';
+    });
+    document.querySelectorAll('a, .related-card, .img-thumb').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
+        ring.style.width = '48px'; ring.style.height = '48px';
+        ring.style.borderColor = 'var(--accent)';
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.width = '28px'; ring.style.height = '28px';
+        ring.style.borderColor = 'var(--ink)';
+      });
+    });
+  </script>
+</body>
+</html>
